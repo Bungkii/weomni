@@ -294,12 +294,15 @@ nav {
 .modal-title { font-size: 24px; font-weight: 800; margin-bottom: 8px; text-align: center; }
 .modal-desc { font-size: 14px; color: var(--text-secondary); text-align: center; margin-bottom: 24px; }
 .modal-form { display: flex; flex-direction: column; gap: 16px; }
-.modal-form input {
+.modal-form input, .modal-form textarea {
   width: 100%; padding: 14px 18px; border-radius: 12px;
   background: var(--bg-primary); border: 1px solid var(--border);
   color: var(--text-primary); font-family: var(--font-body); font-size: 15px; outline: none;
 }
-.modal-form input:focus { border-color: var(--primary); }
+.modal-form textarea {
+  resize: vertical; min-height: 80px;
+}
+.modal-form input:focus, .modal-form textarea:focus { border-color: var(--primary); }
 .modal-actions { display: flex; gap: 12px; margin-top: 8px; }
 .btn-submit {
   flex: 1; padding: 14px; border-radius: 12px;
@@ -313,46 +316,74 @@ nav {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   PRINT-ONLY QUOTATION STRUCTURE
+   PRINT-ONLY QUOTATION STRUCTURE (HIGHLY CORPORATE)
    ═══════════════════════════════════════════════════════════════ */
-#quotation-print-page { display: none; background: #ffffff; color: #000000; padding: 40px; font-family: 'Sarabun', sans-serif; }
-.quote-header { display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px; }
-.company-details h2 { font-size: 26px; color: #0083B0; margin-bottom: 6px; font-family: 'IBM Plex Sans Thai', sans-serif; }
-.company-details p { font-size: 13px; color: #444; line-height: 1.5; }
-.quote-title-block { text-align: right; }
-.quote-title-block h1 { font-size: 32px; color: #333; margin-bottom: 10px; font-family: 'IBM Plex Sans Thai', sans-serif; }
-.quote-meta p { font-size: 14px; color: #333; margin-bottom: 4px; }
+#quotation-print-page { 
+  display: none; 
+  background: #ffffff; 
+  color: #000000; 
+  padding: 20px 40px; 
+  font-family: 'Sarabun', sans-serif; 
+}
 
-.quote-bill-to { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; }
-.bill-to-title { font-family: 'IBM Plex Sans Thai', sans-serif; font-size: 16px; font-weight: 700; color: #333; margin-bottom: 8px; }
-.quote-bill-to p { font-size: 14px; color: #444; margin-bottom: 4px; }
-
-.quote-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-.quote-table th { background: #0083B0; color: #fff; padding: 12px; text-align: left; font-family: 'IBM Plex Sans Thai', sans-serif; font-size: 14px; }
-.quote-table td { padding: 12px; border-bottom: 1px solid #e2e8f0; font-size: 14px; color: #333; }
-.text-right { text-align: right; }
-
-.quote-summary-block { display: flex; justify-content: flex-end; margin-bottom: 50px; }
-.summary-sub-table { width: 320px; font-size: 14px; }
-.summary-sub-table td { padding: 8px 12px; }
-.summary-sub-table tr.grand-total { font-size: 18px; font-weight: 700; color: #0083B0; background: #f0fdfa; font-family: 'IBM Plex Sans Thai', sans-serif; }
-
-.quote-signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 80px; text-align: center; font-size: 14px; }
-.sig-line { border-bottom: 1px dashed #94a3b8; margin-bottom: 8px; height: 40px; }
-
-/* ── PRINT MEDIA RULES ── */
+/* Print specific resets */
 @media print {
-  body { background: #ffffff !important; color: #000000 !important; cursor: default !important; padding: 0; }
-  nav, .container, .summary-panel, .modal-overlay, .noise-layer, .cur-dot, .cur-ring, .cur-glow {
-    display: none !important;
-  }
+  @page { margin: 1cm; size: A4 portrait; }
+  body { background: #ffffff !important; color: #000000 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  nav, .container, .summary-panel, .modal-overlay, .noise-layer, .cur-dot, .cur-ring, .cur-glow { display: none !important; }
   #quotation-print-page { display: block !important; }
+  
+  /* Strict corporate layout constraints */
+  .quote-container { max-width: 100%; margin: 0 auto; }
+  
+  .quote-header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+  .quote-logo { width: 180px; margin-bottom: 10px; }
+  
+  .company-info { font-size: 12px; line-height: 1.5; color: #333; }
+  .company-name-th { font-size: 18px; font-weight: bold; margin-bottom: 2px; font-family: 'IBM Plex Sans Thai', sans-serif; }
+  .company-name-en { font-size: 14px; font-weight: bold; margin-bottom: 6px; }
+  
+  .doc-title-box { text-align: right; }
+  .doc-title { font-size: 28px; font-weight: bold; color: #1e293b; margin-bottom: 5px; font-family: 'IBM Plex Sans Thai', sans-serif; }
+  .doc-subtitle { font-size: 14px; color: #64748b; font-weight: bold; margin-bottom: 15px; }
+  
+  .meta-table { width: 100%; border-collapse: collapse; font-size: 12px; max-width: 250px; float: right; }
+  .meta-table td { padding: 4px; border: 1px solid #cbd5e1; }
+  .meta-table td.lbl { background-color: #f1f5f9; font-weight: bold; width: 40%; }
+  
+  .address-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; clear: both; }
+  .address-box { border: 1px solid #cbd5e1; border-radius: 4px; padding: 12px 16px; font-size: 12px; line-height: 1.6; }
+  .box-title { font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; color: #0f172a; font-family: 'IBM Plex Sans Thai', sans-serif; }
+  
+  .item-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
+  .item-table th { background-color: #0f172a; color: #ffffff; padding: 10px; text-align: center; border: 1px solid #0f172a; font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: normal; }
+  .item-table td { padding: 8px 10px; border: 1px solid #cbd5e1; vertical-align: top; }
+  .item-table .text-left { text-align: left; }
+  .item-table .text-center { text-align: center; }
+  .item-table .text-right { text-align: right; }
+  
+  .totals-container { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; page-break-inside: avoid; }
+  
+  .terms-box { width: 55%; font-size: 11px; line-height: 1.5; color: #475569; }
+  .terms-box strong { color: #0f172a; }
+  
+  .totals-table { width: 40%; border-collapse: collapse; font-size: 12px; }
+  .totals-table td { padding: 6px 10px; border: 1px solid #cbd5e1; }
+  .totals-table .lbl { text-align: right; font-weight: bold; }
+  .totals-table .val { text-align: right; }
+  .totals-table .grand-total-row { background-color: #f1f5f9; font-weight: bold; font-size: 14px; }
+  
+  .amount-in-words { background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 8px 10px; font-size: 12px; font-weight: bold; text-align: center; margin-top: -1px; }
+
+  .signature-block { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; page-break-inside: avoid; }
+  .sig-box { border: 1px solid #cbd5e1; border-radius: 4px; padding: 15px; text-align: center; font-size: 12px; }
+  .sig-title { font-weight: bold; margin-bottom: 40px; }
+  .sig-line { border-bottom: 1px solid #94a3b8; width: 80%; margin: 0 auto 10px; }
 }
 </style>
 </head>
 <body>
 
-<!-- Navigation Bar -->
 <nav>
   <div class="nav-container">
     <div class="brand">
@@ -494,7 +525,7 @@ nav {
   <div class="summary-container">
     <div class="summary-info">
       <div class="summary-count" id="summary-count">เลือกแล้ว: 0 รายการ</div>
-      <div class="summary-total">ประมาณการราคาปลีก: <span id="summary-total-val">฿0.00</span></div>
+      <div class="summary-total">ประมาณการราคา: <span id="summary-total-val">฿0.00</span></div>
     </div>
     <button class="btn-checkout" onclick="openQuotationModal()">ออกใบเสนอราคา (PDF)</button>
   </div>
@@ -503,15 +534,18 @@ nav {
 <!-- Modal Form Dialog -->
 <div class="modal-overlay" id="quote-modal">
   <div class="modal-box">
-    <h3 class="modal-title">ข้อมูลสำหรับออกใบเสนอราคา</h3>
-    <p class="modal-desc">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อสร้างเอกสารใบเสนอราคา</p>
+    <h3 class="modal-title">ข้อมูลลูกค้า</h3>
+    <p class="modal-desc">ระบุรายละเอียดเพื่อระบุในใบเสนอราคา</p>
     <form class="modal-form" onsubmit="generateQuotationPDF(event)">
       <input type="text" id="cust-company" required placeholder="ชื่อบริษัท / ร้านค้า *"/>
-      <input type="text" id="cust-phone" required placeholder="เบอร์โทรศัพท์ติดต่อกลับ *"/>
-      <input type="email" id="cust-email" required placeholder="อีเมลของคุณ *"/>
+      <input type="text" id="cust-address" required placeholder="ที่อยู่บริษัท / สาขาที่ติดตั้ง *"/>
+      <input type="text" id="cust-taxid" placeholder="เลขประจำตัวผู้เสียภาษี (ถ้ามี)"/>
+      <input type="text" id="cust-name" required placeholder="ชื่อผู้ติดต่อ *"/>
+      <input type="text" id="cust-phone" required placeholder="เบอร์โทรศัพท์ *"/>
+      <input type="email" id="cust-email" required placeholder="อีเมล *"/>
       <div class="modal-actions">
         <button type="button" class="btn-cancel" onclick="closeQuotationModal()">ยกเลิก</button>
-        <button type="submit" class="btn-submit">ดาวน์โหลด / พิมพ์ใบเสนอราคา</button>
+        <button type="submit" class="btn-submit">พิมพ์ใบเสนอราคา</button>
       </div>
     </form>
   </div>
@@ -520,46 +554,70 @@ nav {
 <!-- ═══════════════════════════════════════════════════════
      REAL CORPORATE QUOTATION VIEW (HIDDEN ON SCREEN, SHOWN ON PRINT)
      ═══════════════════════════════════════════════════════ -->
-<div id="quotation-print-page">
-  <div class="quote-header">
-    <div class="company-details">
-      <h2>FlexiPOS Platform</h2>
-      <p>บริษัท แฟล็กซี่โพส จำกัด (สำนักงานใหญ่)</p>
-      <p>อาคารฟินิกซ์ ชั้น 9, 101 ทรู ดิจิทัล พาร์ค ถนนสุขุมวิท แขวงบางจาก เขตพระโขนง กรุงเทพฯ 10260</p>
-      <p>Email: contact@flexipos.local | โทร: 0-2826-7777</p>
+<div id="quotation-print-page" class="quote-container">
+  
+  <div class="quote-header-top">
+    <div class="company-info">
+      <!-- You can put a base64 logo here or text if image doesn't print well -->
+      <div class="company-name-th">บริษัท แฟล็กซี่โพส จำกัด (สำนักงานใหญ่)</div>
+      <div class="company-name-en">FLEXIPOS COMPANY LIMITED (HEAD OFFICE)</div>
+      <div>101 ทรู ดิจิทัล พาร์ค อาคารฟินิกซ์ ชั้น 9 ถนนสุขุมวิท</div>
+      <div>แขวงบางจาก เขตพระโขนง กรุงเทพมหานคร 10260</div>
+      <div>เลขประจำตัวผู้เสียภาษี: 0105558000000</div>
+      <div>โทรศัพท์: 0-2826-7777 | อีเมล: contact@flexipos.local</div>
     </div>
-    <div class="quote-title-block">
-      <h1>ใบเสนอราคา</h1>
-      <div class="quote-meta">
-        <p><strong>เลขที่เอกสาร:</strong> QT-<span id="pdf-quote-id">20260613</span></p>
-        <p><strong>วันที่:</strong> <span id="pdf-quote-date">13 มิถุนายน 2569</span></p>
-      </div>
+    
+    <div class="doc-title-box">
+      <div class="doc-title">ใบเสนอราคา</div>
+      <div class="doc-subtitle">QUOTATION</div>
+      
+      <table class="meta-table">
+        <tr>
+          <td class="lbl">เลขที่เอกสาร:</td>
+          <td>QT<span id="pdf-quote-id">2606001</span></td>
+        </tr>
+        <tr>
+          <td class="lbl">วันที่:</td>
+          <td><span id="pdf-quote-date">13/06/2026</span></td>
+        </tr>
+        <tr>
+          <td class="lbl">ยืนยันราคา:</td>
+          <td>30 วัน</td>
+        </tr>
+        <tr>
+          <td class="lbl">พนักงานขาย:</td>
+          <td>Pannapat B.</td>
+        </tr>
+      </table>
     </div>
   </div>
 
-  <div class="quote-bill-to">
-    <div>
-      <div class="bill-to-title">ผู้รับใบเสนอราคา (Client)</div>
-      <p><strong>ชื่อบริษัท/ร้านค้า:</strong> <span id="pdf-cust-company">-</span></p>
-      <p><strong>เบอร์โทรศัพท์:</strong> <span id="pdf-cust-phone">-</span></p>
-      <p><strong>อีเมล:</strong> <span id="pdf-cust-email">-</span></p>
+  <div class="address-blocks">
+    <div class="address-box">
+      <div class="box-title">เสนอราคาให้ (Customer)</div>
+      <div><strong><span id="pdf-cust-company">-</span></strong></div>
+      <div><span id="pdf-cust-address">-</span></div>
+      <div>เลขประจำตัวผู้เสียภาษี: <span id="pdf-cust-taxid">-</span></div>
+      <div style="margin-top: 8px;"><strong>ผู้ติดต่อ:</strong> <span id="pdf-cust-name">-</span></div>
+      <div><strong>โทรศัพท์:</strong> <span id="pdf-cust-phone">-</span></div>
+      <div><strong>อีเมล:</strong> <span id="pdf-cust-email">-</span></div>
     </div>
-    <div style="border-left: 1px solid #e2e8f0; padding-left: 20px;">
-      <div class="bill-to-title">เงื่อนไขและข้อตกลง</div>
-      <p><strong>ยืนยันราคา:</strong> 30 วันนับจากวันที่ออกเอกสาร</p>
-      <p><strong>การจัดส่ง:</strong> จัดส่งและติดตั้งระบบหน้างานฟรี</p>
-      <p><strong>การรับประกัน:</strong> ตัวเครื่องและซอฟต์แวร์ 1 ปีเต็ม</p>
+    <div class="address-box">
+      <div class="box-title">สถานที่ติดตั้ง (Installation Site)</div>
+      <div>ระบุตามที่อยู่ลูกค้า (Customer Address)</div>
+      <div style="margin-top: 15px;"><strong>เงื่อนไขการชำระเงิน:</strong> ชำระเต็มจำนวนก่อนติดตั้ง</div>
+      <div><strong>กำหนดส่งมอบ:</strong> 7-14 วันทำการหลังรับชำระ</div>
     </div>
   </div>
 
-  <table class="quote-table">
+  <table class="item-table">
     <thead>
       <tr>
-        <th style="width: 80px;">ลำดับ</th>
-        <th>รายการสินค้า / โซลูชันระบบ</th>
-        <th class="text-right" style="width: 150px;">ราคาต่อหน่วย</th>
-        <th class="text-right" style="width: 100px;">จำนวน</th>
-        <th class="text-right" style="width: 180px;">จำนวนเงิน (บาท)</th>
+        <th style="width: 5%;">ลำดับ<br/>No.</th>
+        <th style="width: 50%;">รายการสินค้า<br/>Description</th>
+        <th style="width: 15%;">ราคา/หน่วย<br/>Unit Price</th>
+        <th style="width: 10%;">จำนวน<br/>Qty</th>
+        <th style="width: 20%;">จำนวนเงิน<br/>Amount</th>
       </tr>
     </thead>
     <tbody id="pdf-table-body">
@@ -567,39 +625,53 @@ nav {
     </tbody>
   </table>
 
-  <div class="quote-summary-block">
-    <table class="summary-sub-table">
+  <div class="totals-container">
+    <div class="terms-box">
+      <p style="margin-bottom: 8px;"><strong>หมายเหตุ (Remarks):</strong></p>
+      <ul style="padding-left: 15px; margin: 0;">
+        <li>ราคานี้รวมการรับประกันฮาร์ดแวร์และซอฟต์แวร์ 1 ปี (Hardware & Software Warranty 1 Year)</li>
+        <li>ราคานี้รวมบริการจัดส่งและติดตั้งระบบ ณ สถานที่ของลูกค้า (เขตกรุงเทพฯ และปริมณฑล)</li>
+        <li>กรณีต้องการใช้กระดาษความร้อนพิมพ์ใบเสร็จ มีค่าบริการจัดส่งรายเดือนเพิ่มเติม</li>
+        <li>รายการอุปกรณ์นี้เป็นชุด Custom Build ซึ่งคำนวณราคาตามเงื่อนไขพิเศษ</li>
+      </ul>
+    </div>
+    
+    <table class="totals-table">
       <tr>
-        <td><strong>รวมเงินก่อนภาษี (Subtotal):</strong></td>
-        <td class="text-right" id="pdf-subtotal">฿0.00</td>
+        <td class="lbl">รวมเงิน (Subtotal)</td>
+        <td class="val" id="pdf-subtotal">0.00</td>
       </tr>
       <tr>
-        <td>ภาษีมูลค่าเพิ่ม (VAT 7%):</td>
-        <td class="text-right" id="pdf-vat">฿0.00</td>
+        <td class="lbl">ภาษีมูลค่าเพิ่ม 7% (VAT)</td>
+        <td class="val" id="pdf-vat">0.00</td>
       </tr>
-      <tr class="grand-total">
-        <td><strong>ยอดเงินสุทธิทั้งสิ้น:</strong></td>
-        <td class="text-right" id="pdf-grand-total">฿0.00</td>
+      <tr class="grand-total-row">
+        <td class="lbl">ยอดสุทธิ (Grand Total)</td>
+        <td class="val" id="pdf-grand-total">0.00</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="amount-in-words" id="pdf-amount-words">(-บาทถ้วน-)</td>
       </tr>
     </table>
   </div>
 
-  <p style="font-size:11px; color:#555; border-top: 1px dashed #cbd5e1; padding-top:10px; margin-bottom: 40px;">
-    * หมายเหตุ: อัตราค่าบริการรายชิ้นแบบสร้างชุดอุปกรณ์เองนี้ รวมสิทธิ์ซอฟต์แวร์และการบริการจัดเซ็ตระดับ Customization เรียบร้อยแล้ว (ตัวเลขคำนวณแบบปัดเศษเลขกลมเป็นธรรมเนียมแพ็กเกจพิเศษ +10% เหนือกว่าชุดเซ็ตมาตรฐานสำเร็จรูปทั่วไป)
-  </p>
-
-  <div class="quote-signatures">
-    <div>
+  <div class="signature-block">
+    <div class="sig-box">
+      <div class="sig-title">ตกลงสั่งซื้อตามเงื่อนไขนี้ (Accepted By)</div>
       <div class="sig-line"></div>
-      <p>ผู้รับใบเสนอราคา / อนุมัติสั่งซื้อ</p>
-      <p>วันที่ ______/______/______</p>
+      <div>(............................................................)</div>
+      <div style="margin-top: 5px;">วันที่ (Date): ......../......../............</div>
+      <div style="margin-top: 10px; font-size: 10px; color: #64748b;">(ประทับตราบริษัทถ้ามี)</div>
     </div>
-    <div>
-      <div class="sig-line" style="color: #0083B0; font-weight: bold; padding-top: 15px;">Pannapat Bungkii</div>
-      <p>ผู้เสนอราคา / เจ้าหน้าที่เทคโนโลยีอาวุธการตลาด</p>
-      <p>FlexiPOS e-Solution Platform</p>
+    <div class="sig-box">
+      <div class="sig-title">ขอแสดงความนับถือ (Authorized By)</div>
+      <div class="sig-line"></div>
+      <div>( นายปัณณพัตน์ )</div>
+      <div style="margin-top: 5px;">วันที่ (Date): <span id="pdf-sig-date">13/06/2026</span></div>
+      <div style="margin-top: 10px; font-size: 10px; color: #64748b;">บริษัท แฟล็กซี่โพส จำกัด</div>
     </div>
   </div>
+
 </div>
 
 <script>
@@ -632,6 +704,11 @@ let selectedProducts = new Set();
 function toggleSelectProduct(id) {
   const card = document.querySelector(`.product-card[data-id="${id}"]`);
   const button = card.querySelector('.btn-toggle-select');
+  
+  // Calculate direct cost + 3% flat markup
+  let basePrice = parseInt(card.getAttribute('data-price'));
+  let displayPrice = Math.ceil((basePrice * 1.03) / 10) * 10;
+
   if (selectedProducts.has(id)) {
     selectedProducts.delete(id);
     card.classList.remove('selected');
@@ -648,7 +725,8 @@ function calculateTotal() {
   let retailTotal = 0;
   selectedProducts.forEach(id => {
     const card = document.querySelector(`.product-card[data-id="${id}"]`);
-    retailTotal += parseInt(card.getAttribute('data-price'));
+    let base = parseInt(card.getAttribute('data-price'));
+    retailTotal += Math.ceil((base * 1.03) / 10) * 10;
   });
   document.getElementById('summary-count').textContent = `เลือกแล้ว: ${selectedProducts.size} รายการ`;
   document.getElementById('summary-total-val').textContent = `฿${retailTotal.toLocaleString('th-TH', {minimumFractionDigits: 2})}`;
@@ -666,73 +744,132 @@ function closeQuotationModal() {
   document.getElementById('quote-modal').style.display = 'none';
 }
 
-/* ━━ Real Real-time PDF Quotation Engine (+10% Scaled and Rounded) ━━ */
+/* ━━ Thai Baht Text Converter ━━ */
+function ThaiBahtText(amount) {
+  const thText = ["ศูนย์", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"];
+  const thUnit = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"];
+  let strAmount = parseFloat(amount).toFixed(2).toString();
+  let parts = strAmount.split('.');
+  let baht = parts[0];
+  let satang = parts[1];
+  
+  let result = "";
+  if(baht === "0") result = "ศูนย์บาท";
+  else {
+    let len = baht.length;
+    for(let i=0; i<len; i++) {
+      let digit = parseInt(baht.charAt(i));
+      let pos = len - i - 1;
+      if(digit !== 0) {
+        if(pos === 0 && digit === 1 && len > 1) result += "เอ็ด";
+        else if(pos === 1 && digit === 2) result += "ยี่";
+        else if(pos === 1 && digit === 1) result += "";
+        else result += thText[digit];
+        result += thUnit[pos];
+      }
+    }
+    result += "บาท";
+  }
+  
+  if(satang === "00") result += "ถ้วน";
+  else {
+    let len = satang.length;
+    for(let i=0; i<len; i++) {
+      let digit = parseInt(satang.charAt(i));
+      let pos = len - i - 1;
+      if(digit !== 0) {
+        if(pos === 0 && digit === 1 && satang.charAt(0) !== "0") result += "เอ็ด";
+        else if(pos === 1 && digit === 2) result += "ยี่";
+        else if(pos === 1 && digit === 1) result += "";
+        else result += thText[digit];
+        result += thUnit[pos];
+      }
+    }
+    result += "สตางค์";
+  }
+  return `(-${result}-)`;
+}
+
+/* ━━ Format Date ━━ */
+function getFormattedDate() {
+  const d = new Date();
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear() + 543;
+  return `${day}/${month}/${year}`;
+}
+
+/* ━━ PDF Generation (Corporate Format, Flat 3% Markup) ━━ */
 function generateQuotationPDF(event) {
   event.preventDefault();
   
+  // Get Form Data
   const comp = document.getElementById('cust-company').value;
+  const address = document.getElementById('cust-address').value;
+  const taxid = document.getElementById('cust-taxid').value || "-";
+  const name = document.getElementById('cust-name').value;
   const phone = document.getElementById('cust-phone').value;
   const email = document.getElementById('cust-email').value;
   
-  // Update PDF Metadata
+  // Set PDF Metadata
   document.getElementById('pdf-cust-company').textContent = comp;
+  document.getElementById('pdf-cust-address').textContent = address;
+  document.getElementById('pdf-cust-taxid').textContent = taxid;
+  document.getElementById('pdf-cust-name').textContent = name;
   document.getElementById('pdf-cust-phone').textContent = phone;
   document.getElementById('pdf-cust-email').textContent = email;
-  document.getElementById('pdf-quote-id').textContent = Math.floor(10000000 + Math.random() * 90000000);
+  
+  const today = getFormattedDate();
+  const qId = Math.floor(1000 + Math.random() * 9000); // 4 digit random
+  const dateStr = new Date();
+  const ym = `${String(dateStr.getFullYear()+543).substring(2)}${String(dateStr.getMonth()+1).padStart(2, '0')}`;
+  
+  document.getElementById('pdf-quote-id').textContent = `${ym}${qId}`;
+  document.getElementById('pdf-quote-date').textContent = today;
+  document.getElementById('pdf-sig-date').textContent = today;
   
   // Render Line Items
   const tableBody = document.getElementById('pdf-table-body');
   tableBody.innerHTML = '';
   
-  let rawSum = 0;
+  let subtotal = 0;
   let index = 1;
   
   selectedProducts.forEach(id => {
     const card = document.querySelector(`.product-card[data-id="${id}"]`);
     const name = card.getAttribute('data-name');
-    const price = parseInt(card.getAttribute('data-price'));
+    let basePrice = parseInt(card.getAttribute('data-price'));
     
-    rawSum += price;
+    // Explicit 3% markup logic applied directly to item
+    let markedUpPrice = Math.ceil((basePrice * 1.03) / 10) * 10;
+    subtotal += markedUpPrice;
     
     const row = `<tr>
-      <td>${index++}</td>
-      <td>${name} (เกรดลิขสิทธิ์เฉพาะทางคอมเมิร์ซ)</td>
-      <td class="text-right">฿${price.toLocaleString('th-TH', {minimumFractionDigits: 2})}</td>
-      <td class="text-right">1</td>
-      <td class="text-right">฿${price.toLocaleString('th-TH', {minimumFractionDigits: 2})}</td>
+      <td class="text-center">${index++}</td>
+      <td class="text-left">${name}</td>
+      <td class="text-right">${markedUpPrice.toLocaleString('th-TH', {minimumFractionDigits: 2})}</td>
+      <td class="text-center">1</td>
+      <td class="text-right">${markedUpPrice.toLocaleString('th-TH', {minimumFractionDigits: 2})}</td>
     </tr>`;
     tableBody.insertAdjacentHTML('beforeend', row);
   });
   
-  // 💡 Premium Logic: Individual custom layout should be 10% more expensive than sets!
-  // To simulate custom bundle pricing + software integration premium cleanly:
-  let customServicePremium = rawSum * 0.5; // Adding core cloud infrastructure bundle layer 
-  let subtotalBase = rawSum + customServicePremium;
-  let finalWithMarkup = subtotalBase * 1.10; // Apply explicit 10% premium requested by user
+  // Calculate VAT correctly
+  let vat = subtotal * 0.07;
+  let grandTotal = subtotal + vat;
   
-  // Round to perfect clean numbers (เลขกลมๆ ลงท้ายด้วยหลักพันหรือหลักร้อยถ้วน)
-  let grandTotalRounded = Math.ceil(finalWithMarkup / 500) * 500; 
-  let subtotalRounded = Math.round(grandTotalRounded / 1.07);
-  let vatRounded = grandTotalRounded - subtotalRounded;
-
-  // Insert standard software license pack line if item total is standalone hardware
-  tableBody.insertAdjacentHTML('beforeend', `<tr>
-    <td>${index}</td>
-    <td><strong>สิทธิ์การใช้งาน FlexiPOS Software & Custom Setup Pack (1 ปี)</strong></td>
-    <td class="text-right">฿${(subtotalRounded - rawSum).toLocaleString('th-TH', {minimumFractionDigits: 2})}</td>
-    <td class="text-right">1</td>
-    <td class="text-right">฿${(subtotalRounded - rawSum).toLocaleString('th-TH', {minimumFractionDigits: 2})}</td>
-  </tr>`);
-
   // Inject Totals
-  document.getElementById('pdf-subtotal').textContent = `฿${subtotalRounded.toLocaleString('th-TH', {minimumFractionDigits: 2})}`;
-  document.getElementById('pdf-vat').textContent = `฿${vatRounded.toLocaleString('th-TH', {minimumFractionDigits: 2})}`;
-  document.getElementById('pdf-grand-total').textContent = `฿${grandTotalRounded.toLocaleString('th-TH', {minimumFractionDigits: 2})}`;
+  document.getElementById('pdf-subtotal').textContent = subtotal.toLocaleString('th-TH', {minimumFractionDigits: 2});
+  document.getElementById('pdf-vat').textContent = vat.toLocaleString('th-TH', {minimumFractionDigits: 2});
+  document.getElementById('pdf-grand-total').textContent = grandTotal.toLocaleString('th-TH', {minimumFractionDigits: 2});
+  
+  // Set Thai Text Amount
+  document.getElementById('pdf-amount-words').textContent = ThaiBahtText(grandTotal);
   
   closeQuotationModal();
   
-  // Trigger system print window natively -> creates direct, clean vector PDF output!
-  window.print();
+  // Delay slightly to ensure DOM renders before printing
+  setTimeout(() => { window.print(); }, 300);
 }
 </script>
 </body>
