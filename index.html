@@ -282,7 +282,7 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:64px;height:6
         <img src="logo.png"
           alt="WeOmni" style="height:28px;object-fit:contain;filter:brightness(var(--logo-brightness));transition:filter .6s"/>
         <span style="width:1px;height:16px;background:var(--border);transition:var(--transition-theme)"></span>
-        <span style="font-size:11px;font-weight:600;color:var(--shopify);letter-spacing:.06em;transition:var(--transition-theme)">SHOPIFY PARTNER</span>
+        <span style="font-size:11px;font-weight:600;color:var(--shopify);letter-spacing:.06em;transition:var(--transition-theme)">FlexiPOS</span>
       </a>
       <!-- Links -->
       <div style="display:flex;align-items:center;gap:4px" class="nav-links-desktop">
@@ -368,39 +368,37 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:64px;height:6
           <div style="position:absolute;top:-60px;right:-60px;width:180px;height:180px;background:rgba(149,191,71,.08);border-radius:50%;filter:blur(50px);pointer-events:none"></div>
           <div style="position:absolute;bottom:-40px;left:-40px;width:140px;height:140px;background:rgba(155,21,40,.06);border-radius:50%;filter:blur(40px);pointer-events:none"></div>
 
-          <h3 style="font-size:22px;font-weight:800;letter-spacing:-.03em;margin-bottom:4px;position:relative;z-index:1">แบบฟอร์มลงทะเบียนติดต่อพนักงานขาย</h3>
+          <h3 style="font-size:22px;font-weight:800;letter-spacing:-.03em;margin-bottom:4px;position:relative;z-index:1">เริ่มต้นขายกับ FlexiPOS ได้แล้ววันนี้</h3>
           <p style="font-size:13px;color:var(--text-tertiary);margin-bottom:20px;position:relative;z-index:1;transition:var(--transition-theme)">พร้อมติดต่อกลับภายใน 24 ชั่วโมง</p>
 
           <!-- Form fields -->
           <form id="contact-form" name="contact" method="POST" data-netlify="true" style="display:flex;flex-direction:column;gap:10px;position:relative;z-index:1">
             <input type="hidden" name="form-name" value="contact"/>
             <div>
-              <label style="display:block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;transition:var(--transition-theme)">ชื่อ-นามสกุล ผู้ติดต่อ *</label>
+              <label style="display:block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;transition:var(--transition-theme)">ชื่อบริษัท</label>
               <input type="text" name="company" required placeholder="ชื่อบริษัทของคุณ" style="width:100%;padding:12px 16px;border-radius:14px;background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text-primary);font-family:var(--font);font-size:14px;outline:none;transition:all .4s var(--ease-out-expo)" onfocus="this.style.borderColor='rgba(149,191,71,.4)';this.style.boxShadow='0 0 24px rgba(149,191,71,.08)'" onblur="this.style.borderColor='var(--glass-border)';this.style.boxShadow='none'"/>
             </div>
             <div>
-              <label style="display:block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;transition:var(--transition-theme)">เว็บไซต์ปัจจุบัน</label>
+              <label style="display:block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;transition:var(--transition-theme)">เว็บไซต์</label>
               <input type="url" name="website" placeholder="https://yourstore.com" style="width:100%;padding:12px 16px;border-radius:14px;background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text-primary);font-family:var(--font);font-size:14px;outline:none;transition:all .4s var(--ease-out-expo)" onfocus="this.style.borderColor='rgba(149,191,71,.4)';this.style.boxShadow='0 0 24px rgba(149,191,71,.08)'" onblur="this.style.borderColor='var(--glass-border)';this.style.boxShadow='none'"/>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
               <div>
                 <label style="display:block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;transition:var(--transition-theme)">เบอร์โทรศัพท์ *</label>
-                <input type="text" name="fullname" required placeholder="ชื่อ นามสกุล" style="width:100%;padding:12px 16px;border-radius:14px;background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text-primary);font-family:var(--font);font-size:14px;outline:none;transition:all .4s var(--ease-out-expo)" onfocus="this.style.borderColor='rgba(149,191,71,.4)';this.style.boxShadow='0 0 24px rgba(149,191,71,.08)'" onblur="this.style.borderColor='var(--glass-border)';this.style.boxShadow='none'"/>
+                <input type="text" name="fullname" required placeholder="เบอร์โทรศัพท์" style="width:100%;padding:12px 16px;border-radius:14px;background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text-primary);font-family:var(--font);font-size:14px;outline:none;transition:all .4s var(--ease-out-expo)" onfocus="this.style.borderColor='rgba(149,191,71,.4)';this.style.boxShadow='0 0 24px rgba(149,191,71,.08)'" onblur="this.style.borderColor='var(--glass-border)';this.style.boxShadow='none'"/>
               </div>
               <div>
-                <label style="display:block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;transition:var(--transition-theme)">เบอร์โทรศัพท์สำรอง *</label>
-                <input type="tel" name="phone" required placeholder="+66 xx xxx xxxx" style="width:100%;padding:12px 16px;border-radius:14px;background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text-primary);font-family:var(--font);font-size:14px;outline:none;transition:all .4s var(--ease-out-expo)" onfocus="this.style.borderColor='rgba(149,191,71,.4)';this.style.boxShadow='0 0 24px rgba(149,191,71,.08)'" onblur="this.style.borderColor='var(--glass-border)';this.style.boxShadow='none'"/>
-              </div>
-            </div>
+                <label style="display:block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;transition:var(--transition-theme)">ชื่อผู้ติดต่อ *</label>
+              <input type="text" name="name" required placeholder="ชื่อผู้ติดต่อ" style="width:100%;padding:12px 16px;border-radius:14px;background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text-primary);font-family:var(--font);font-size:14px;outline:none;transition:all .4s var(--ease-out-expo)" onfocus="this.style.borderColor='rgba(149,191,71,.4)';this.style.boxShadow='0 0 24px rgba(149,191,71,.08)'" onblur="this.style.borderColor='var(--glass-border)';this.style.boxShadow='none'"/>
             <div>
               <label style="display:block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;transition:var(--transition-theme)">อีเมล *</label>
               <input type="email" name="email" required placeholder="you@company.com" style="width:100%;padding:12px 16px;border-radius:14px;background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text-primary);font-family:var(--font);font-size:14px;outline:none;transition:all .4s var(--ease-out-expo)" onfocus="this.style.borderColor='rgba(149,191,71,.4)';this.style.boxShadow='0 0 24px rgba(149,191,71,.08)'" onblur="this.style.borderColor='var(--glass-border)';this.style.boxShadow='none'"/>
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;padding-top:4px">
               <input type="checkbox" id="tc" name="terms" required style="width:16px;height:16px;margin-top:1px;accent-color:var(--shopify);flex-shrink:0"/>
-              <label for="tc" style="font-size:11px;color:var(--text-tertiary);line-height:1.6;transition:var(--transition-theme)">ข้าพเจ้ายอมรับ<a href="https://weomni.com/en/terms-and-conditions-2/" target="_blank" style="color:var(--shopify);opacity:.7">ข้อกำหนดและเงื่อนไข</a>และยินยอมให้ FlexiPOS ติดต่อกลับ</label>
+              <label for="tc" style="font-size:11px;color:var(--text-tertiary);line-height:1.6;transition:var(--transition-theme)">ข้าพเจ้ายอมรับ<a href="https://flexiomni.vercel.app/" target="_blank" style="color:var(--shopify);opacity:.7">ข้อกำหนดและเงื่อนไข</a>และยินยอมให้ FlexiPOS ติดต่อกลับ</label>
             </div>
-            <button type="submit" id="submit-btn" class="magnetic" style="width:100%;padding:16px;border-radius:16px;background:linear-gradient(135deg,var(--shopify),var(--shopify-dark));color:#111;font-size:15px;font-weight:700;box-shadow:0 8px 28px var(--shopify-glow);transition:all .5s var(--ease-spring);margin-top:4px" onmouseover="this.style.boxShadow='0 14px 40px var(--shopify-glow)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='0 8px 28px var(--shopify-glow)';this.style.transform=''">ส่งข้อมูล &mdash; รับคำปรึกษาฟรี</button>
+            <button type="submit" id="submit-btn" class="magnetic" style="width:100%;padding:16px;border-radius:16px;background:linear-gradient(135deg,var(--shopify),var(--shopify-dark));color:#111;font-size:15px;font-weight:700;box-shadow:0 8px 28px var(--shopify-glow);transition:all .5s var(--ease-spring);margin-top:4px" onmouseover="this.style.boxShadow='0 14px 40px var(--shopify-glow)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='0 8px 28px var(--shopify-glow)';this.style.transform=''">ส่งข้อมูล</button>
           </form>
         </div>
       </div>
