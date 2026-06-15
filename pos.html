@@ -11,9 +11,14 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
 
     <style>
+        @font-face {
+            font-family: 'Tahoma';
+            src: local('Tahoma');
+        }
+
         html, body {
-            font-family: 'CordiaUPC', 'Tahoma', sans-serif; background-color: #d1d5db; 
-            font-size: 22px; /* CordiaUPC ตัวจะค่อนข้างเล็ก เลยปรับ base ให้ใหญ่ขึ้น */
+            font-family: 'Tahoma', sans-serif; background-color: #d1d5db; 
+            font-size: 15px;
             user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
             overflow: hidden; width: 100vw; height: 100vh;
         }
@@ -32,7 +37,7 @@
             border: none;
             border-bottom: 1px solid #b0b0b0;
             padding: 8px 0;
-            font-size: 20px;
+            font-size: 15px;
             background: transparent;
             color: #555;
             transition: all 0.3s ease;
@@ -48,7 +53,7 @@
             color: #555;
             border-radius: 50px;
             padding: 10px 40px;
-            font-size: 20px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -71,7 +76,7 @@
             border-top: 2px solid #fff; border-left: 2px solid #fff;
             border-right: 2px solid #71717a; border-bottom: 2px solid #71717a;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; font-size: 20px; font-weight: bold;
+            text-align: center; font-size: 15px; font-weight: bold;
             color: #1f2937; cursor: pointer; line-height: 1.1; padding: 2px;
             position: relative;
         }
@@ -80,7 +85,7 @@
             border-right: 2px solid #fff; border-bottom: 2px solid #fff;
             background-color: #e5e7eb !important;
         }
-        .hotkey-label { position: absolute; top: 2px; right: 4px; font-size: 14px; font-weight: 800; color: rgba(0,0,0,0.4); }
+        .hotkey-label { position: absolute; top: 2px; right: 4px; font-size: 11px; font-weight: 800; color: rgba(0,0,0,0.4); }
 
         .btn-pink { background-color: #fbcfe8; }
         .btn-yellow { background-color: #fef08a; }
@@ -111,20 +116,25 @@
             border-left: 4px solid #2563eb !important;
         }
 
+        /* Print Styles */
         @media print {
             body > *:not(#print-container) { display: none !important; }
             #print-container { 
                 display: block !important; 
                 position: relative; width: 76mm; padding: 0; margin: 0; 
-                background: white; color: black; font-size: 16px; line-height: 1.2;
-                font-family: 'CordiaUPC', sans-serif;
+                background: white; color: black; font-size: 12px; line-height: 1.3;
+                font-family: 'Tahoma', sans-serif;
             }
             .page-break { page-break-after: always; }
             .dashed-line { border-top: 1px dashed black; margin: 4px 0; }
             .flex-between { display: flex; justify-content: space-between; }
             
-            .slip-font { font-size: 20px; }
-            .slip-queue-font { font-size: 32px; letter-spacing: 2px; }
+            .slip-font { font-size: 14px; font-weight: bold; }
+            .slip-queue-font { font-size: 32px; letter-spacing: 1px; }
+            
+            .rcpt-text { font-size: 12px; }
+            .rcpt-header { font-size: 14px; font-weight: bold; }
+            .rcpt-large { font-size: 16px; font-weight: bold; }
         }
         .loader { border-top-color: #00aeef; animation: spinner 1s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -137,14 +147,14 @@
             <img src="/src/or-logo-sm.png" alt="OR Logo" class="h-24 object-contain" onerror="this.style.display='none'">
         </div>
         <div class="or-card px-10 py-10 w-[420px] relative z-10 flex flex-col items-center">
-            <h2 class="text-4xl text-[#00aeef] font-bold mb-8">OR Retail POS</h2>
+            <h2 class="text-3xl text-[#00aeef] font-bold mb-8">OR Retail POS</h2>
             <div class="mb-10 w-full mt-4">
-                <input type="password" id="emp-pin" class="material-input text-center text-3xl tracking-[0.2em]" placeholder="Password" autocomplete="off" inputmode="numeric">
+                <input type="password" id="emp-pin" class="material-input text-center text-2xl tracking-[0.2em]" placeholder="Password" autocomplete="off" inputmode="numeric">
             </div>
             <div class="flex justify-center mb-6 w-full">
                 <button onclick="handleLogin()" class="btn-or-login">SIGN IN</button>
             </div>
-            <div class="text-center text-[#999] text-lg leading-snug mt-2">
+            <div class="text-center text-[#999] text-xs leading-snug mt-2">
                 Copyright © 2016 VerticalTec - All Rights Reserved<br>
                 VTEC BackOffice Version 4.5.1 | Since 10 June 2016
             </div>
@@ -152,29 +162,29 @@
     </div>
 
     <div id="screen-order-type" class="hidden login-bg absolute inset-0 z-40 p-10 flex items-center justify-center gap-6 select-none">
-        <div onclick="selectOrderType('TAKE AWAY')" class="bg-[#325794] hover:bg-[#284577] flex-1 h-full max-h-[80%] flex items-center justify-center text-white text-6xl font-bold cursor-pointer shadow-xl active:scale-95 transition-all duration-200 uppercase tracking-wide">
+        <div onclick="selectOrderType('TAKE AWAY')" class="bg-[#325794] hover:bg-[#284577] flex-1 h-full max-h-[80%] flex items-center justify-center text-white text-5xl font-bold cursor-pointer shadow-xl active:scale-95 transition-all duration-200 uppercase tracking-wide">
             TAKE AWAY
         </div>
-        <div onclick="selectOrderType('DELIVERY')" class="bg-[#b3c7e6] hover:bg-[#9cb6db] flex-1 h-full max-h-[80%] flex items-center justify-center text-white text-6xl font-bold cursor-pointer shadow-xl active:scale-95 transition-all duration-200 uppercase tracking-wide text-gray-800">
+        <div onclick="selectOrderType('DELIVERY')" class="bg-[#b3c7e6] hover:bg-[#9cb6db] flex-1 h-full max-h-[80%] flex items-center justify-center text-white text-5xl font-bold cursor-pointer shadow-xl active:scale-95 transition-all duration-200 uppercase tracking-wide text-gray-800">
             DELIVERY
         </div>
-        <div class="bg-[#325794] flex-1 h-full max-h-[80%] flex flex-col items-center justify-center text-white text-5xl shadow-xl leading-relaxed text-center font-bold">
+        <div class="bg-[#325794] flex-1 h-full max-h-[80%] flex flex-col items-center justify-center text-white text-4xl shadow-xl leading-relaxed text-center font-bold">
             Date:<br>
-            <span id="display-day" class="mt-2 font-normal text-4xl"></span><br>
-            <span id="display-date" class="font-normal text-4xl"></span>
+            <span id="display-day" class="mt-2 font-normal text-3xl"></span><br>
+            <span id="display-date" class="font-normal text-3xl"></span>
         </div>
     </div>
 
     <div id="modal-delivery-info" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-sm">
-            <h3 class="font-bold text-3xl mb-4 text-center bg-[#325794] text-white py-1">ข้อมูล Delivery</h3>
-            <p class="font-bold text-center mb-2 text-xl">เลือกแพลตฟอร์ม:</p>
+            <h3 class="font-bold text-2xl mb-4 text-center bg-[#325794] text-white py-1">ข้อมูล Delivery</h3>
+            <p class="font-bold text-center mb-2 text-lg">เลือกแพลตฟอร์ม:</p>
             <div class="grid grid-cols-2 gap-2 mb-4">
                 <button id="btn-plat-gf" onclick="setDeliveryPlatform('GF', 'btn-plat-gf')" class="pos-btn bg-white border-2 border-gray-400 text-gray-800 py-3">GrabFood</button>
                 <button id="btn-plat-lm" onclick="setDeliveryPlatform('LM', 'btn-plat-lm')" class="pos-btn bg-white border-2 border-gray-400 text-gray-800 py-3">LINEMAN</button>
             </div>
-            <p class="font-bold text-center mb-2 mt-4 text-xl">เลขออเดอร์:</p>
-            <input type="text" id="delivery-id-input" class="w-full classic-input p-3 text-center text-2xl font-bold mb-6 text-blue-900" placeholder="เช่น 12345 หรือ GF-123">
+            <p class="font-bold text-center mb-2 mt-4 text-lg">เลขออเดอร์:</p>
+            <input type="text" id="delivery-id-input" class="w-full classic-input p-3 text-center text-xl font-bold mb-6 text-blue-900" placeholder="เช่น 12345 หรือ GF-123">
             <div class="flex gap-2">
                 <button onclick="closeModal('modal-delivery-info')" class="flex-1 pos-btn btn-gray py-3">ยกเลิก [ESC]</button>
                 <button onclick="confirmDeliveryInfo()" class="flex-[2] pos-btn bg-[#325794] text-white py-3">ตกลง [ENTER]</button>
@@ -185,21 +195,21 @@
     <div id="screen-dashboard" class="hidden pos-layout">
         <div class="flex flex-col gap-1 p-1 h-full overflow-hidden bg-gray-300 border-r-2 border-gray-500">
             <div class="bg-[#1f2937] p-2 flex items-center gap-2 border-2 border-gray-700 border-b-white border-r-white shadow-inner relative shrink-0">
-                <span class="text-white font-bold text-lg uppercase">Input:</span>
-                <input type="text" id="barcode-input" class="flex-1 bg-yellow-50 text-2xl font-mono px-3 py-1 classic-input text-blue-900 font-bold tracking-wider" placeholder="" autocomplete="off">
+                <span class="text-white font-bold text-sm uppercase">Input:</span>
+                <input type="text" id="barcode-input" class="flex-1 bg-yellow-50 text-xl font-mono px-3 py-1 classic-input text-blue-900 font-bold tracking-wider" placeholder="" autocomplete="off">
             </div>
 
             <div class="flex-1 bg-white border-2 border-gray-600 border-b-white border-r-white flex flex-col overflow-hidden relative">
-                <div id="member-cart-header" class="hidden bg-blue-800 text-white px-4 py-2 flex justify-between items-center z-20 shadow-md border-b-2 border-blue-900 text-xl">
+                <div id="member-cart-header" class="hidden bg-blue-800 text-white px-4 py-2 flex justify-between items-center z-20 shadow-md border-b-2 border-blue-900 text-sm">
                     <div class="flex items-center gap-2">
-                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path></svg>
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path></svg>
                         <span id="member-name-display" class="font-bold"></span>
                     </div>
                     <div class="font-bold">คะแนน: <span id="member-points-display" class="text-yellow-300">0</span></div>
                 </div>
                 
                 <div class="overflow-y-auto flex-1 touch-auto">
-                    <table class="w-full pos-table text-xl">
+                    <table class="w-full pos-table text-sm">
                         <thead class="sticky top-0 z-10 shadow-sm">
                             <tr class="bg-gray-300 text-gray-900">
                                 <th class="w-10">No.</th>
@@ -215,14 +225,14 @@
                 </div>
             </div>
 
-            <div class="bg-[#1e3a8a] border-t-4 border-l-4 border-blue-600 border-b-4 border-r-4 border-blue-950 flex justify-between items-center px-6 py-1 text-white font-bold shrink-0">
+            <div class="bg-[#1e3a8a] border-t-4 border-l-4 border-blue-600 border-b-4 border-r-4 border-blue-950 flex justify-between items-center px-6 py-2 text-white font-bold shrink-0">
                 <div class="flex gap-6">
-                    <span class="text-2xl">รวม <span id="summary-items" class="text-4xl text-yellow-400">0</span> รายการ</span>
-                    <span class="text-2xl"><span id="summary-qty" class="text-4xl text-yellow-400">0</span> ชิ้น</span>
+                    <span class="text-lg">รวม <span id="summary-items" class="text-3xl text-yellow-400">0</span> รายการ</span>
+                    <span class="text-lg"><span id="summary-qty" class="text-3xl text-yellow-400">0</span> ชิ้น</span>
                 </div>
                 <div class="flex items-baseline gap-3">
-                    <span id="summary-total" class="text-6xl text-white tracking-tighter">0.00</span>
-                    <span class="text-2xl text-blue-200">บาท</span>
+                    <span id="summary-total" class="text-5xl text-white tracking-tighter">0.00</span>
+                    <span class="text-xl text-blue-200">บาท</span>
                 </div>
             </div>
 
@@ -255,62 +265,62 @@
 
         <div class="flex flex-col gap-1 p-2 bg-[#d1d5db] h-full overflow-y-auto touch-auto">
             <div class="grid grid-cols-2 gap-1 h-[70px] shrink-0">
-                <div class="pos-btn bg-[#fde68a] text-2xl" onclick="openModal('modal-blueplus')">สมาชิก<br>Blueplus+ <span class="hotkey-label">F3</span></div>
-                <div class="pos-btn bg-[#fde68a] text-2xl" onclick="openModal('modal-discount')">ส่วนลด<br>พิเศษ <span class="hotkey-label">F4</span></div>
+                <div class="pos-btn bg-[#fde68a] text-lg" onclick="openModal('modal-blueplus')">สมาชิก<br>Blueplus+ <span class="hotkey-label">F3</span></div>
+                <div class="pos-btn bg-[#fde68a] text-lg" onclick="openModal('modal-discount')">ส่วนลด<br>พิเศษ <span class="hotkey-label">F4</span></div>
             </div>
 
             <div class="bg-white border-2 border-[#82b1ff] p-3 min-h-[90px] flex flex-col justify-center my-1 shadow-inner shrink-0">
-                <div class="text-[16px] font-bold text-gray-500 flex justify-between uppercase">
+                <div class="text-[11px] font-bold text-gray-500 flex justify-between uppercase">
                     <span>Customer Info</span><span id="discount-display" class="text-orange-600 font-bold leading-tight text-right"></span>
                 </div>
-                <div id="member-display" class="text-3xl font-black text-[#1e3a8a] mt-1 truncate">-</div>
+                <div id="member-display" class="text-2xl font-black text-[#1e3a8a] mt-1 truncate">-</div>
             </div>
 
             <div class="grid grid-cols-2 gap-1 h-[65px] shrink-0">
-                <div class="pos-btn btn-gray text-2xl" onclick="openModal('modal-prices')">ราคาน้ำมัน</div>
-                <div class="pos-btn btn-gray text-2xl" onclick="openModal('modal-pumps')">ตู้จ่ายน้ำมัน</div>
+                <div class="pos-btn btn-gray text-lg" onclick="openModal('modal-prices')">ราคาน้ำมัน</div>
+                <div class="pos-btn btn-gray text-lg" onclick="openModal('modal-pumps')">ตู้จ่ายน้ำมัน</div>
             </div>
 
             <div class="grid grid-cols-2 gap-1 h-[65px] shrink-0">
-                <div class="pos-btn bg-[#bfdbfe] text-2xl" onclick="holdBill()">พักบิล <span class="hotkey-label">F8</span></div>
-                <div class="pos-btn bg-[#bfdbfe] text-2xl" onclick="recallBill()">เรียกบิล <span class="hotkey-label">F9</span></div>
+                <div class="pos-btn bg-[#bfdbfe] text-lg" onclick="holdBill()">พักบิล <span class="hotkey-label">F8</span></div>
+                <div class="pos-btn bg-[#bfdbfe] text-lg" onclick="recallBill()">เรียกบิล <span class="hotkey-label">F9</span></div>
             </div>
 
             <div class="grid grid-cols-3 gap-1 h-[65px] shrink-0">
-                <div class="pos-btn bg-[#bfdbfe] text-xl" onclick="printReceipt80mm(true)">พิมพ์บิลล่าสุด<br><span class="hotkey-label">F10</span></div>
-                <div class="pos-btn bg-[#bfdbfe] text-xl" onclick="toggleSettings()">ตั้งค่าระบบ</div>
-                <div class="pos-btn bg-[#bfdbfe] text-xl font-bold text-blue-900" onclick="openCustomerDisplay()">จอฝั่งลูกค้า<br>(CD)</div>
+                <div class="pos-btn bg-[#bfdbfe] text-sm" onclick="printReceipt80mm(true)">พิมพ์บิลล่าสุด<br><span class="hotkey-label">F10</span></div>
+                <div class="pos-btn bg-[#bfdbfe] text-sm" onclick="toggleSettings()">ตั้งค่าระบบ</div>
+                <div class="pos-btn bg-[#bfdbfe] text-sm font-bold text-blue-900" onclick="openCustomerDisplay()">จอฝั่งลูกค้า<br>(CD)</div>
             </div>
 
             <div class="grid grid-cols-2 gap-1 h-[65px] mb-2 shrink-0">
-                <div class="pos-btn bg-[#93c5fd] text-blue-900 text-2xl" onclick="clearCart()">ยกเลิกการขาย <span class="hotkey-label text-blue-900">Del</span></div>
-                <div class="pos-btn bg-[#fbcfe8] text-pink-900 text-2xl" onclick="openDrawer()">เปิดลิ้นชัก <span class="hotkey-label text-pink-900">F5</span></div>
+                <div class="pos-btn bg-[#93c5fd] text-blue-900 text-lg" onclick="clearCart()">ยกเลิกการขาย <span class="hotkey-label text-blue-900">Del</span></div>
+                <div class="pos-btn bg-[#fbcfe8] text-pink-900 text-lg" onclick="openDrawer()">เปิดลิ้นชัก <span class="hotkey-label text-pink-900">F5</span></div>
             </div>
 
             <div class="mt-auto flex flex-col gap-1 shrink-0">
                 <div class="grid grid-cols-3 gap-1">
-                    <button onclick="handlePaymentClick('QR')" class="pos-btn btn-blue h-16 text-xl font-black text-blue-900">
-                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <button onclick="handlePaymentClick('QR')" class="pos-btn btn-blue h-16 text-sm font-black text-blue-900">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                         สแกนจ่าย
                     </button>
-                    <button onclick="handlePaymentClick('CARD')" class="pos-btn btn-orange h-16 text-xl font-black text-orange-900">
-                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                    <button onclick="handlePaymentClick('CARD')" class="pos-btn btn-orange h-16 text-sm font-black text-orange-900">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
                         บัตร
                     </button>
-                    <button onclick="handlePaymentClick('CASH')" class="pos-btn btn-green h-16 text-xl font-black text-green-900">
-                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle></svg>
+                    <button onclick="handlePaymentClick('CASH')" class="pos-btn btn-green h-16 text-sm font-black text-green-900">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle></svg>
                         เงินสด (F1)
                     </button>
                 </div>
-                <button onclick="handlePaymentClick('PAYMENT_MENU')" class="pos-btn btn-darkblue h-16 text-3xl font-black text-white w-full">
+                <button onclick="handlePaymentClick('PAYMENT_MENU')" class="pos-btn btn-darkblue h-16 text-xl font-black text-white w-full">
                     <div class="flex items-center gap-2">
-                        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                         ชำระเงิน (F2)
                     </div>
                 </button>
             </div>
             
-            <div class="bg-[#1f2937] text-white p-3 flex justify-between font-bold text-xl border-2 border-gray-600 border-b-white border-r-white mt-2 shrink-0 cursor-pointer" onclick="handleLogout()">
+            <div class="bg-[#1f2937] text-white p-3 flex justify-between font-bold text-sm border-2 border-gray-600 border-b-white border-r-white mt-2 shrink-0 cursor-pointer" onclick="handleLogout()">
                 <span>EMP: <span id="display-emp-name">-</span></span>
                 <span id="realtime-clock">00:00:00</span>
             </div>
@@ -319,26 +329,26 @@
 
     <div id="modal-category-items" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-3xl flex flex-col h-[80vh]">
-            <h3 class="font-bold text-3xl mb-4 text-center bg-orange-600 text-white py-2 shadow-sm" id="category-modal-title">หมวดหมู่สินค้า</h3>
+            <h3 class="font-bold text-2xl mb-4 text-center bg-orange-600 text-white py-2 shadow-sm" id="category-modal-title">หมวดหมู่สินค้า</h3>
             <div class="flex-1 overflow-y-auto p-2 bg-gray-200 border-2 border-gray-400 shadow-inner">
                 <div id="category-items-grid" class="grid grid-cols-3 gap-2"></div>
             </div>
-            <button onclick="closeModal('modal-category-items')" class="w-full pos-btn btn-pink py-4 mt-4 text-2xl">ปิดหน้าต่าง [ESC]</button>
+            <button onclick="closeModal('modal-category-items')" class="w-full pos-btn btn-pink py-4 mt-4 text-xl">ปิดหน้าต่าง [ESC]</button>
         </div>
     </div>
 
     <div id="modal-history" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-4xl h-[80vh] flex flex-col">
-            <h3 class="font-bold text-3xl mb-4 text-center bg-pink-700 text-white py-2 shadow-sm">รายการย้อนหลัง (History)</h3>
+            <h3 class="font-bold text-2xl mb-4 text-center bg-pink-700 text-white py-2 shadow-sm">รายการย้อนหลัง (History)</h3>
             <div class="flex-1 overflow-y-auto bg-white border-2 border-gray-400 p-2" id="history-list-container"></div>
-            <button onclick="closeModal('modal-history')" class="w-full pos-btn btn-gray py-4 mt-4 text-2xl">ปิดหน้าต่าง [ESC]</button>
+            <button onclick="closeModal('modal-history')" class="w-full pos-btn btn-gray py-4 mt-4 text-xl">ปิดหน้าต่าง [ESC]</button>
         </div>
     </div>
 
     <div id="modal-history-detail" class="hidden fixed inset-0 bg-black/80 z-[120] flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-sm flex flex-col items-center">
-            <h3 class="font-bold text-2xl mb-4 bg-blue-900 text-white py-2 w-full text-center">จัดการบิลเลขที่ <br><span id="hist-detail-trace" class="text-yellow-300"></span></h3>
-            <p class="font-bold text-2xl mb-4">ยอดเงิน: <span id="hist-detail-total" class="text-blue-700"></span> บาท</p>
+            <h3 class="font-bold text-xl mb-4 bg-blue-900 text-white py-2 w-full text-center">จัดการบิลเลขที่ <br><span id="hist-detail-trace" class="text-yellow-300"></span></h3>
+            <p class="font-bold text-xl mb-4">ยอดเงิน: <span id="hist-detail-total" class="text-blue-700"></span> บาท</p>
             <div class="grid grid-cols-1 gap-2 w-full mb-4">
                 <button onclick="reprintHistory()" class="pos-btn btn-blue py-3">พิมพ์ซ้ำ</button>
                 <button onclick="editBlueplusHistory()" class="pos-btn btn-yellow py-3">แก้ข้อมูล Blueplus+</button>
@@ -351,48 +361,48 @@
     <div id="modal-payment-select" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-4xl flex flex-row gap-4 h-[70vh]">
             <div class="flex-1 bg-white border-2 border-gray-400 p-4 flex flex-col h-full shadow-inner">
-                <h4 class="font-bold text-2xl mb-2 text-center border-b-2 border-dashed border-gray-300 pb-2 text-gray-700">รายการใบเสร็จ (PREVIEW)</h4>
-                <div class="flex-1 overflow-y-auto space-y-2 text-lg text-gray-700 font-bold p-2" id="payment-preview-list"></div>
+                <h4 class="font-bold text-xl mb-2 text-center border-b-2 border-dashed border-gray-300 pb-2 text-gray-700">รายการใบเสร็จ (PREVIEW)</h4>
+                <div class="flex-1 overflow-y-auto space-y-2 text-sm text-gray-700 font-bold p-2" id="payment-preview-list"></div>
                 <div class="border-t-2 border-dashed border-gray-300 pt-4 mt-2">
                     <div id="payment-preview-discount" class="hidden flex justify-between text-red-600 font-bold mb-2"></div>
-                    <div class="flex justify-between items-end text-2xl text-blue-900 font-black">
+                    <div class="flex justify-between items-end text-xl text-blue-900 font-black">
                         <span>ยอดสุทธิที่ต้องชำระ:</span>
-                        <span class="text-4xl">฿<span id="payment-preview-net">0.00</span></span>
+                        <span class="text-3xl">฿<span id="payment-preview-net">0.00</span></span>
                     </div>
                 </div>
             </div>
             <div class="w-[320px] flex flex-col h-full">
-                <h3 class="font-bold text-3xl mb-4 bg-blue-900 text-white py-2 text-center">เลือกวิธีชำระเงิน</h3>
+                <h3 class="font-bold text-2xl mb-4 bg-blue-900 text-white py-2 text-center">เลือกวิธีชำระเงิน</h3>
                 <div class="text-right mb-4 px-4 bg-white border-2 border-gray-400 py-3 shadow-inner">
-                    <p class="text-lg font-bold text-gray-500 uppercase">ยอดชำระ (ส่วนที่เหลือ)</p>
-                    <p class="text-5xl font-black text-blue-900">฿<span id="payment-select-total">0.00</span></p>
+                    <p class="text-sm font-bold text-gray-500 uppercase">ยอดชำระ (ส่วนที่เหลือ)</p>
+                    <p class="text-4xl font-black text-blue-900">฿<span id="payment-select-total">0.00</span></p>
                 </div>
                 <div class="grid grid-cols-1 gap-3 px-1 flex-1 content-start">
-                    <button onclick="closeModal('modal-payment-select'); handlePaymentClick('QR');" class="pos-btn btn-gray py-4 text-2xl flex items-center justify-center gap-3">
-                        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <button onclick="closeModal('modal-payment-select'); handlePaymentClick('QR');" class="pos-btn btn-gray py-4 text-lg flex items-center justify-center gap-3">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                         คิวอาร์เพย์เมนต์ (Ctrl+0)
                     </button>
-                    <button onclick="closeModal('modal-payment-select'); handlePaymentClick('CARD');" class="pos-btn btn-gray py-4 text-2xl flex items-center justify-center gap-3">
-                        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                    <button onclick="closeModal('modal-payment-select'); handlePaymentClick('CARD');" class="pos-btn btn-gray py-4 text-lg flex items-center justify-center gap-3">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
                         บัตรเครดิต (Ctrl+1)
                     </button>
-                    <button onclick="closeModal('modal-payment-select'); openCashModal();" class="pos-btn bg-[#4ade80] text-green-900 py-4 text-2xl font-bold flex items-center justify-center gap-3">
-                        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle></svg>
+                    <button onclick="closeModal('modal-payment-select'); openCashModal();" class="pos-btn bg-[#4ade80] text-green-900 py-4 text-lg font-bold flex items-center justify-center gap-3">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle></svg>
                         เงินสด (Ctrl+2)
                     </button>
                 </div>
-                <button onclick="closeModal('modal-payment-select')" class="pos-btn btn-pink py-3 mt-4 w-full text-xl">ยกเลิก [ESC]</button>
+                <button onclick="closeModal('modal-payment-select')" class="pos-btn btn-pink py-3 mt-4 w-full text-lg">ยกเลิก [ESC]</button>
             </div>
         </div>
     </div>
 
     <div id="modal-custom-item" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-sm">
-            <h3 class="font-bold text-2xl mb-4 text-center bg-blue-900 text-white py-1" id="custom-item-title">ระบุข้อมูล</h3>
-            <div class="mb-1 text-lg font-bold text-gray-700 pl-1">รายละเอียดสินค้า (ไม่บังคับ):</div>
-            <input type="text" id="custom-item-desc" class="w-full classic-input p-3 text-xl font-bold mb-4 text-blue-900" placeholder="เช่น ชาเขียวปั่น" autocomplete="off">
-            <div class="mb-1 text-lg font-bold text-gray-700 pl-1">ราคา (บาท):</div>
-            <input type="number" id="custom-item-price" class="w-full classic-input p-3 text-center text-4xl font-bold mb-6 text-blue-900" placeholder="0.00" autocomplete="off">
+            <h3 class="font-bold text-xl mb-4 text-center bg-blue-900 text-white py-1" id="custom-item-title">ระบุข้อมูล</h3>
+            <div class="mb-1 text-sm font-bold text-gray-700 pl-1">รายละเอียดสินค้า (ไม่บังคับ):</div>
+            <input type="text" id="custom-item-desc" class="w-full classic-input p-3 text-lg font-bold mb-4 text-blue-900" placeholder="เช่น ชาเขียวปั่น" autocomplete="off">
+            <div class="mb-1 text-sm font-bold text-gray-700 pl-1">ราคา (บาท):</div>
+            <input type="number" id="custom-item-price" class="w-full classic-input p-3 text-center text-3xl font-bold mb-6 text-blue-900" placeholder="0.00" autocomplete="off">
             <div class="flex gap-2">
                 <button onclick="closeModal('modal-custom-item')" class="flex-1 pos-btn btn-gray py-3">ยกเลิก [ESC]</button>
                 <button onclick="confirmCustomItem()" class="flex-[2] pos-btn btn-green py-3 text-green-900">ตกลง [ENTER]</button>
@@ -402,20 +412,20 @@
 
     <div id="modal-edit-item" class="hidden fixed inset-0 bg-black/80 z-[120] flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-sm">
-            <h3 class="font-bold text-2xl mb-4 text-center bg-yellow-500 text-white py-1">แก้ไขรายการ</h3>
-            <div class="font-bold text-gray-800 text-xl mb-2 text-center" id="edit-item-name">-</div>
+            <h3 class="font-bold text-xl mb-4 text-center bg-yellow-500 text-white py-1">แก้ไขรายการ</h3>
+            <div class="font-bold text-gray-800 text-lg mb-2 text-center" id="edit-item-name">-</div>
             <div class="mb-3">
-                <label class="text-lg font-bold text-gray-600">รายละเอียดสินค้า</label>
-                <input type="text" id="edit-item-detail" class="w-full classic-input p-2 text-center text-xl">
+                <label class="text-xs font-bold text-gray-600">รายละเอียดสินค้า</label>
+                <input type="text" id="edit-item-detail" class="w-full classic-input p-2 text-center text-lg">
             </div>
             <div class="flex gap-2 mb-6">
                 <div class="flex-1">
-                    <label class="text-lg font-bold text-gray-600">จำนวน</label>
-                    <input type="number" id="edit-item-qty" class="w-full classic-input p-2 text-center text-2xl font-bold bg-yellow-50" step="any">
+                    <label class="text-xs font-bold text-gray-600">จำนวน</label>
+                    <input type="number" id="edit-item-qty" class="w-full classic-input p-2 text-center text-xl font-bold bg-yellow-50" step="any">
                 </div>
                 <div class="flex-1">
-                    <label class="text-lg font-bold text-gray-600">ราคา/หน่วย</label>
-                    <input type="number" id="edit-item-price" class="w-full classic-input p-2 text-center text-2xl font-bold bg-yellow-50" step="any">
+                    <label class="text-xs font-bold text-gray-600">ราคา/หน่วย</label>
+                    <input type="number" id="edit-item-price" class="w-full classic-input p-2 text-center text-xl font-bold bg-yellow-50" step="any">
                 </div>
             </div>
             <div class="flex gap-2">
@@ -427,14 +437,14 @@
 
     <div id="modal-fuel-amount" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-sm">
-            <h3 class="font-bold text-2xl mb-4 text-center bg-blue-900 text-white py-1">ระบุยอดเงิน (บาท)</h3>
-            <div class="text-center font-bold text-gray-800 text-xl mb-4" id="fuel-item-name">-</div>
-            <input type="number" id="fuel-item-amount" class="w-full classic-input p-4 text-center text-5xl font-bold mb-6 text-blue-900" placeholder="0">
+            <h3 class="font-bold text-xl mb-4 text-center bg-blue-900 text-white py-1">ระบุยอดเงิน (บาท)</h3>
+            <div class="text-center font-bold text-gray-800 text-lg mb-4" id="fuel-item-name">-</div>
+            <input type="number" id="fuel-item-amount" class="w-full classic-input p-4 text-center text-4xl font-bold mb-6 text-blue-900" placeholder="0">
             <div class="grid grid-cols-4 gap-2 mb-4">
-                <button onclick="addFuelAmount(100)" class="pos-btn btn-gray py-2 text-xl">+100</button>
-                <button onclick="addFuelAmount(500)" class="pos-btn btn-gray py-2 text-xl">+500</button>
-                <button onclick="addFuelAmount(1000)" class="pos-btn btn-gray py-2 text-xl">+1000</button>
-                <button onclick="document.getElementById('fuel-item-amount').value=''" class="pos-btn btn-pink py-2 text-xl">ล้าง</button>
+                <button onclick="addFuelAmount(100)" class="pos-btn btn-gray py-2 text-sm">+100</button>
+                <button onclick="addFuelAmount(500)" class="pos-btn btn-gray py-2 text-sm">+500</button>
+                <button onclick="addFuelAmount(1000)" class="pos-btn btn-gray py-2 text-sm">+1000</button>
+                <button onclick="document.getElementById('fuel-item-amount').value=''" class="pos-btn btn-pink py-2 text-sm">ล้าง</button>
             </div>
             <div class="flex gap-2">
                 <button onclick="closeModal('modal-fuel-amount')" class="flex-1 pos-btn btn-gray py-3">ยกเลิก [ESC]</button>
@@ -445,32 +455,32 @@
 
     <div id="modal-cash" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-lg">
-            <h3 class="font-bold text-3xl text-center bg-green-700 text-white py-2 mb-6 uppercase">รับชำระเงินสด (CASH)</h3>
+            <h3 class="font-bold text-2xl text-center bg-green-700 text-white py-2 mb-6 uppercase">รับชำระเงินสด (CASH)</h3>
             <div class="text-right mb-6 px-2">
-                <p class="font-bold text-gray-600 text-xl">ยอดที่ต้องชำระ (ส่วนที่เหลือ)</p>
-                <p class="text-6xl font-black text-blue-900">฿<span id="cash-total-req">0.00</span></p>
+                <p class="font-bold text-gray-600 text-sm">ยอดที่ต้องชำระ (ส่วนที่เหลือ)</p>
+                <p class="text-5xl font-black text-blue-900">฿<span id="cash-total-req">0.00</span></p>
             </div>
             <div class="grid grid-cols-3 gap-2 mb-6">
-                <button onclick="addCash(1000)" class="h-16 pos-btn bg-[#a39b92] text-white text-2xl">1,000</button>
-                <button onclick="addCash(500)" class="h-16 pos-btn bg-[#9b59b6] text-white text-2xl">500</button>
-                <button onclick="addCash(100)" class="h-16 pos-btn bg-[#e74c3c] text-white text-2xl">100</button>
-                <button onclick="addCash(50)" class="h-16 pos-btn bg-[#3498db] text-white text-2xl">50</button>
-                <button onclick="addCash(20)" class="h-16 pos-btn bg-[#2ecc71] text-white text-2xl">20</button>
-                <button onclick="exactCash()" class="h-16 pos-btn bg-[#f39c12] text-white text-2xl font-bold">รับเงินพอดี</button>
+                <button onclick="addCash(1000)" class="h-16 pos-btn bg-[#a39b92] text-white text-xl">1,000</button>
+                <button onclick="addCash(500)" class="h-16 pos-btn bg-[#9b59b6] text-white text-xl">500</button>
+                <button onclick="addCash(100)" class="h-16 pos-btn bg-[#e74c3c] text-white text-xl">100</button>
+                <button onclick="addCash(50)" class="h-16 pos-btn bg-[#3498db] text-white text-xl">50</button>
+                <button onclick="addCash(20)" class="h-16 pos-btn bg-[#2ecc71] text-white text-xl">20</button>
+                <button onclick="exactCash()" class="h-16 pos-btn bg-[#f39c12] text-white text-xl font-bold">รับเงินพอดี</button>
             </div>
             <div class="space-y-4 mb-6">
                 <div class="flex justify-between items-center bg-gray-200 p-2 classic-input">
-                    <span class="font-bold text-gray-700 text-2xl">รับเงินมา (RECV)</span>
-                    <input type="number" id="cash-input" class="bg-transparent text-right text-5xl font-black outline-none w-1/2 text-blue-900" placeholder="0" oninput="calcChange()">
+                    <span class="font-bold text-gray-700 text-lg">รับเงินมา (RECV)</span>
+                    <input type="number" id="cash-input" class="bg-transparent text-right text-4xl font-black outline-none w-1/2 text-blue-900" placeholder="0" oninput="calcChange()">
                 </div>
                 <div class="flex justify-between items-center bg-black p-4 border-4 border-gray-500">
-                    <span class="font-bold text-green-400 text-3xl">เงินทอน (CHANGE)</span>
-                    <span class="text-6xl font-black text-green-400">฿<span id="cash-change">0.00</span></span>
+                    <span class="font-bold text-green-400 text-2xl">เงินทอน (CHANGE)</span>
+                    <span class="text-5xl font-black text-green-400">฿<span id="cash-change">0.00</span></span>
                 </div>
             </div>
             <div class="flex gap-2">
-                <button onclick="closeModal('modal-cash')" class="flex-1 pos-btn btn-gray py-4 text-2xl">ยกเลิก [ESC]</button>
-                <button onclick="confirmCashPayment()" class="flex-[2] pos-btn btn-green py-4 text-3xl text-green-900">ยืนยันรับเงิน [ENTER]</button>
+                <button onclick="closeModal('modal-cash')" class="flex-1 pos-btn btn-gray py-4 text-xl">ยกเลิก [ESC]</button>
+                <button onclick="confirmCashPayment()" class="flex-[2] pos-btn btn-green py-4 text-2xl text-green-900">ยืนยันรับเงิน [ENTER]</button>
             </div>
         </div>
     </div>
@@ -478,17 +488,17 @@
     <div id="modal-edc-loading" class="hidden fixed inset-0 bg-black/80 z-[120] flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-sm text-center py-8">
             <div class="loader rounded-full border-4 border-t-4 border-blue-600 h-16 w-16 mx-auto mb-6"></div>
-            <p class="font-bold text-blue-900 text-3xl" id="edc-loading-text">รอทำรายการที่เครื่อง EDC...</p>
-            <p class="font-bold text-red-600 text-2xl mt-2">ยอดชำระ: <span id="edc-loading-amount">0.00</span> บาท</p>
-            <button onclick="cancelEDCTransaction()" class="pos-btn btn-pink py-3 px-8 mt-8 mx-auto text-xl">ยกเลิก [ESC]</button>
+            <p class="font-bold text-blue-900 text-2xl" id="edc-loading-text">รอทำรายการที่เครื่อง EDC...</p>
+            <p class="font-bold text-red-600 text-xl mt-2">ยอดชำระ: <span id="edc-loading-amount">0.00</span> บาท</p>
+            <button onclick="cancelEDCTransaction()" class="pos-btn btn-pink py-3 px-8 mt-8 mx-auto text-lg">ยกเลิก [ESC]</button>
         </div>
     </div>
 
     <div id="modal-blueplus" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-sm">
-            <h3 class="font-bold text-2xl mb-4 text-center bg-blue-900 text-white py-1">ข้อมูลสมาชิก Blueplus+</h3>
-            <p class="text-center text-lg text-gray-600 mb-2 font-bold">ลูกค้าสามารถกดเบอร์จากหน้าจอ CD ได้</p>
-            <input type="text" id="input-modal-blueplus" class="w-full classic-input p-4 text-center text-3xl font-bold mb-6 text-blue-900" placeholder="เบอร์โทร / บัตร">
+            <h3 class="font-bold text-xl mb-4 text-center bg-blue-900 text-white py-1">ข้อมูลสมาชิก Blueplus+</h3>
+            <p class="text-center text-sm text-gray-600 mb-2 font-bold">ลูกค้าสามารถกดเบอร์จากหน้าจอ CD ได้</p>
+            <input type="text" id="input-modal-blueplus" class="w-full classic-input p-4 text-center text-2xl font-bold mb-6 text-blue-900" placeholder="เบอร์โทร / บัตร">
             <div class="flex gap-2">
                 <button onclick="closeModal('modal-blueplus')" class="flex-1 pos-btn btn-gray py-3">ยกเลิก [ESC]</button>
                 <button onclick="applyBlueplus()" class="flex-[2] pos-btn btn-gray py-3">ตกลง [ENTER]</button>
@@ -498,25 +508,25 @@
 
     <div id="modal-redeem" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-lg">
-            <h3 class="font-bold text-2xl mb-4 text-center bg-blue-900 text-white py-1">แลกคะแนน Blueplus+ เป็นส่วนลด</h3>
+            <h3 class="font-bold text-xl mb-4 text-center bg-blue-900 text-white py-1">แลกคะแนน Blueplus+ เป็นส่วนลด</h3>
             <div class="flex justify-between items-center mb-4 px-2">
-                <span class="font-bold text-gray-700 text-xl">คะแนนที่มี: <span id="redeem-avail-points" class="text-blue-800 text-2xl">0</span></span>
-                <span class="font-bold text-gray-700 text-xl">คะแนนหลังหัก: <span id="redeem-remain-points" class="text-red-600 text-2xl">0</span></span>
+                <span class="font-bold text-gray-700 text-sm">คะแนนที่มี: <span id="redeem-avail-points" class="text-blue-800 text-lg">0</span></span>
+                <span class="font-bold text-gray-700 text-sm">คะแนนหลังหัก: <span id="redeem-remain-points" class="text-red-600 text-lg">0</span></span>
             </div>
-            <input type="number" id="input-redeem-points" class="w-full classic-input p-4 text-center text-4xl font-bold mb-4 text-blue-900" placeholder="ระบุคะแนนที่ต้องการแลก" step="100" oninput="calcRedeemRemain()">
+            <input type="number" id="input-redeem-points" class="w-full classic-input p-4 text-center text-3xl font-bold mb-4 text-blue-900" placeholder="ระบุคะแนนที่ต้องการแลก" step="100" oninput="calcRedeemRemain()">
             <div class="grid grid-cols-5 gap-2 mb-4">
-                <button onclick="setRedeemPts(100)" class="pos-btn btn-gray py-2 text-xl">100</button>
-                <button onclick="setRedeemPts(200)" class="pos-btn btn-gray py-2 text-xl">200</button>
-                <button onclick="setRedeemPts(300)" class="pos-btn btn-gray py-2 text-xl">300</button>
-                <button onclick="setRedeemPts(400)" class="pos-btn btn-gray py-2 text-xl">400</button>
-                <button onclick="setRedeemPts(500)" class="pos-btn btn-gray py-2 text-xl">500</button>
-                <button onclick="setRedeemPts(600)" class="pos-btn btn-gray py-2 text-xl">600</button>
-                <button onclick="setRedeemPts(700)" class="pos-btn btn-gray py-2 text-xl">700</button>
-                <button onclick="setRedeemPts(800)" class="pos-btn btn-gray py-2 text-xl">800</button>
-                <button onclick="setRedeemPts(900)" class="pos-btn btn-gray py-2 text-xl">900</button>
-                <button onclick="setRedeemPts(1000)" class="pos-btn btn-gray py-2 text-xl">1000</button>
+                <button onclick="setRedeemPts(100)" class="pos-btn btn-gray py-2 text-sm">100</button>
+                <button onclick="setRedeemPts(200)" class="pos-btn btn-gray py-2 text-sm">200</button>
+                <button onclick="setRedeemPts(300)" class="pos-btn btn-gray py-2 text-sm">300</button>
+                <button onclick="setRedeemPts(400)" class="pos-btn btn-gray py-2 text-sm">400</button>
+                <button onclick="setRedeemPts(500)" class="pos-btn btn-gray py-2 text-sm">500</button>
+                <button onclick="setRedeemPts(600)" class="pos-btn btn-gray py-2 text-sm">600</button>
+                <button onclick="setRedeemPts(700)" class="pos-btn btn-gray py-2 text-sm">700</button>
+                <button onclick="setRedeemPts(800)" class="pos-btn btn-gray py-2 text-sm">800</button>
+                <button onclick="setRedeemPts(900)" class="pos-btn btn-gray py-2 text-sm">900</button>
+                <button onclick="setRedeemPts(1000)" class="pos-btn btn-gray py-2 text-sm">1000</button>
             </div>
-            <div class="text-center mb-4 text-red-600 font-bold text-lg" id="redeem-error"></div>
+            <div class="text-center mb-4 text-red-600 font-bold text-sm" id="redeem-error"></div>
             <div class="flex gap-2">
                 <button onclick="closeModal('modal-redeem')" class="flex-1 pos-btn btn-gray py-3">ยกเลิก [ESC]</button>
                 <button onclick="applyRedeem()" class="flex-[2] pos-btn btn-green py-3 text-green-900">ตกลง [ENTER]</button>
@@ -526,32 +536,32 @@
 
     <div id="modal-discount" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-sm">
-            <h3 class="font-bold text-2xl mb-4 text-center bg-orange-500 text-white py-1">จัดการส่วนลด</h3>
+            <h3 class="font-bold text-xl mb-4 text-center bg-orange-500 text-white py-1">จัดการส่วนลด</h3>
             <div class="flex flex-col gap-2 mb-6">
-                <button onclick="applyDiscount('โปรเบนซินลด 50สต.')" class="pos-btn btn-gray py-3 text-xl">1. โปรเบนซินลด 50สต.</button>
-                <button onclick="applyDiscount('ส่วนลดพนักงาน PTT')" class="pos-btn btn-gray py-3 text-xl">2. ส่วนลดพนักงาน 1บาท/ลิตร</button>
-                <button onclick="openRedeemModal()" class="pos-btn btn-blue py-3 mt-2 text-blue-900 text-xl">3. แลกคะแนน Blueplus+</button>
+                <button onclick="applyDiscount('โปรเบนซินลด 50สต.')" class="pos-btn btn-gray py-3 text-md">1. โปรเบนซินลด 50สต.</button>
+                <button onclick="applyDiscount('ส่วนลดพนักงาน PTT')" class="pos-btn btn-gray py-3 text-md">2. ส่วนลดพนักงาน 1บาท/ลิตร</button>
+                <button onclick="openRedeemModal()" class="pos-btn btn-blue py-3 mt-2 text-blue-900 text-md">3. แลกคะแนน Blueplus+</button>
                 <div class="grid grid-cols-2 gap-2 mt-4">
-                    <button onclick="applyDiscount('')" class="pos-btn btn-pink py-3 text-xl">ล้างส่วนลด</button>
-                    <button onclick="clearRedeem()" class="pos-btn btn-pink py-3 text-xl">ล้างแลกแต้ม</button>
+                    <button onclick="applyDiscount('')" class="pos-btn btn-pink py-3 text-md">ล้างส่วนลด</button>
+                    <button onclick="clearRedeem()" class="pos-btn btn-pink py-3 text-md">ล้างแลกแต้ม</button>
                 </div>
             </div>
-            <button onclick="closeModal('modal-discount')" class="w-full pos-btn btn-gray py-3 text-xl">ปิดหน้าต่าง [ESC]</button>
+            <button onclick="closeModal('modal-discount')" class="w-full pos-btn btn-gray py-3 text-md">ปิดหน้าต่าง [ESC]</button>
         </div>
     </div>
 
     <div id="modal-drawer" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-sm flex flex-col items-center">
-            <h3 class="font-bold text-3xl mb-4 bg-pink-700 text-white py-2 w-full text-center">ลิ้นชักเงินเปิดอยู่</h3>
-            <div class="text-7xl font-mono font-bold text-pink-700 mb-8 bg-black px-4 py-2 border-4 border-gray-500" id="drawer-timer">00:00</div>
-            <button onclick="closeDrawer()" class="w-full pos-btn btn-gray py-4 text-2xl">ปิดลิ้นชัก [F5 / ESC]</button>
+            <h3 class="font-bold text-2xl mb-4 bg-pink-700 text-white py-2 w-full text-center">ลิ้นชักเงินเปิดอยู่</h3>
+            <div class="text-6xl font-mono font-bold text-pink-700 mb-8 bg-black px-4 py-2 border-4 border-gray-500" id="drawer-timer">00:00</div>
+            <button onclick="closeDrawer()" class="w-full pos-btn btn-gray py-4 text-xl">ปิดลิ้นชัก [F5 / ESC]</button>
         </div>
     </div>
 
     <div id="modal-settings" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-sm">
-            <h3 class="font-bold text-2xl mb-4 text-center bg-gray-700 text-white py-1">EDC IP Settings</h3>
-            <input type="text" id="edc-ip-input" class="w-full classic-input p-3 text-center font-mono mb-6 text-2xl" placeholder="192.168.1.xxx">
+            <h3 class="font-bold text-xl mb-4 text-center bg-gray-700 text-white py-1">EDC IP Settings</h3>
+            <input type="text" id="edc-ip-input" class="w-full classic-input p-3 text-center font-mono mb-6 text-lg" placeholder="192.168.1.xxx">
             <div class="flex gap-2">
                 <button onclick="closeModal('modal-settings')" class="flex-1 pos-btn btn-gray py-3">ปิด [ESC]</button>
                 <button onclick="saveSettings()" class="flex-[2] pos-btn btn-gray py-3">บันทึก [ENTER]</button>
@@ -561,28 +571,28 @@
     
     <div id="modal-pumps" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-2xl">
-            <h3 class="font-bold text-2xl mb-4 text-center bg-gray-700 text-white py-1">สถานะตู้จ่ายน้ำมัน</h3>
+            <h3 class="font-bold text-xl mb-4 text-center bg-gray-700 text-white py-1">สถานะตู้จ่ายน้ำมัน</h3>
             <div class="grid grid-cols-3 gap-4 mb-6">
-                <div class="pos-btn btn-green p-6"><h4 class="font-black text-3xl">ตู้ 1</h4><p class="text-xl mt-1">ว่าง</p></div>
-                <div class="pos-btn btn-pink p-6 text-red-900"><h4 class="font-black text-3xl">ตู้ 2</h4><p class="text-xl mt-1">กำลังเติม...</p></div>
-                <div class="pos-btn btn-green p-6"><h4 class="font-black text-3xl">ตู้ 3</h4><p class="text-xl mt-1">ว่าง</p></div>
+                <div class="pos-btn btn-green p-6"><h4 class="font-black text-2xl">ตู้ 1</h4><p class="text-sm mt-1">ว่าง</p></div>
+                <div class="pos-btn btn-pink p-6 text-red-900"><h4 class="font-black text-2xl">ตู้ 2</h4><p class="text-sm mt-1">กำลังเติม...</p></div>
+                <div class="pos-btn btn-green p-6"><h4 class="font-black text-2xl">ตู้ 3</h4><p class="text-sm mt-1">ว่าง</p></div>
             </div>
-            <button onclick="closeModal('modal-pumps')" class="w-full pos-btn btn-gray py-3 text-xl">ปิดหน้าต่าง [ESC]</button>
+            <button onclick="closeModal('modal-pumps')" class="w-full pos-btn btn-gray py-3 text-sm">ปิดหน้าต่าง [ESC]</button>
         </div>
     </div>
 
     <div id="modal-prices" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-sm">
-            <h3 class="font-bold text-2xl mb-2 text-center bg-gray-700 text-white py-1">ราคาน้ำมันวันนี้</h3>
-            <div id="prices-view-list" class="bg-white classic-input p-3 h-64 overflow-y-auto mb-4 font-mono text-lg space-y-1"></div>
-            <button onclick="closeModal('modal-prices')" class="w-full pos-btn btn-gray py-3 text-xl">ปิดหน้าต่าง [ESC]</button>
+            <h3 class="font-bold text-xl mb-2 text-center bg-gray-700 text-white py-1">ราคาน้ำมันวันนี้</h3>
+            <div id="prices-view-list" class="bg-white classic-input p-3 h-64 overflow-y-auto mb-4 font-mono text-sm space-y-1"></div>
+            <button onclick="closeModal('modal-prices')" class="w-full pos-btn btn-gray py-3 text-sm">ปิดหน้าต่าง [ESC]</button>
         </div>
     </div>
 
 
     <div id="print-container" class="hidden">
         
-        <div id="order-slip-80mm" class="page-break">
+        <div id="order-slip-80mm" class="page-break pb-4">
             <div class="flex-between font-bold slip-font">
                 <span>No.: <span id="os-no"></span></span>
                 <span id="os-type"></span>
@@ -592,7 +602,7 @@
             <div id="os-items" class="slip-font leading-tight my-2"></div>
             
             <div class="dashed-line"></div>
-            <div class="text-center font-bold my-4 leading-none" id="os-queue-box"></div>
+            <div class="text-center font-bold my-2 leading-none" id="os-queue-box"></div>
             <div class="dashed-line"></div>
             
             <div class="flex justify-between slip-font">
@@ -601,66 +611,66 @@
             </div>
         </div>
 
-        <div id="receipt-80mm">
+        <div id="receipt-80mm" class="pt-2">
             <div class="text-center mb-1">
-                <img src="/asset/img/logo.png" alt="Logo" style="width:70px; margin:0 auto; display:block;" onerror="this.style.display='none'">
-                <div class="font-bold text-[24px] mt-2">TAX INVOICE(ABB)/RECEIPT</div>
-                <div class="text-[20px]">KAMU KAMU COMPANY LIMITED</div>
-                <div class="text-[20px]">00077: Robinson Ratchaphruek</div>
+                <img src="/asset/img/logo.png" alt="Logo" style="width:50px; margin:0 auto; display:block;" onerror="this.style.display='none'">
+                <div class="rcpt-header mt-2">TAX INVOICE(ABB)/RECEIPT</div>
+                <div class="rcpt-text">KAMU KAMU COMPANY LIMITED</div>
+                <div class="rcpt-text">00077: Robinson Ratchaphruek</div>
             </div>
             
-            <div class="flex-between text-[20px]">
+            <div class="flex-between rcpt-text">
                 <span>TAX: 0105556195543</span>
                 <span>RD: E041200002A5270</span>
             </div>
-            <div class="flex-between text-[20px]">
+            <div class="flex-between rcpt-text">
                 <span>STAFF: <span id="rcpt-staff"></span></span>
                 <span id="rcpt-datetime"></span>
             </div>
-            <div class="flex-between text-[20px] border-b border-dashed border-black pb-1 mb-1">
+            <div class="flex-between rcpt-text border-b border-dashed border-black pb-1 mb-1">
                 <span>SHOP: M00076/01</span>
                 <span>No.: <span id="rcpt-no"></span></span>
             </div>
             
-            <div class="text-center font-bold text-[26px] my-2" id="rcpt-queue-display"></div>
+            <div class="text-center rcpt-large my-2" id="rcpt-queue-display"></div>
             
             <div class="border-b border-dashed border-black mb-1"></div>
-            <div id="rcpt-items" class="text-[22px] w-full mb-1"></div>
+            <div id="rcpt-items" class="rcpt-text w-full mb-1"></div>
             <div class="border-b border-dashed border-black mb-1"></div>
             
-            <div class="flex-between text-[22px]">
+            <div class="flex-between rcpt-text">
                 <span>SubTotal</span>
                 <span id="rcpt-subtotal"></span>
             </div>
-            <div id="rcpt-discounts" class="text-[22px]"></div>
+            <div id="rcpt-discounts" class="rcpt-text"></div>
             
-            <div class="flex-between text-[22px] mt-1">
+            <div class="flex-between rcpt-text mt-1">
                 <span>Total</span>
                 <span id="rcpt-total"></span>
             </div>
-            <div class="flex-between text-[26px] font-bold">
+            <div class="flex-between rcpt-large">
                 <span>Grand Total</span>
                 <span id="rcpt-grand"></span>
             </div>
-            <div class="flex-between text-[20px]">
+            <div class="flex-between rcpt-text">
                 <span>Vatable</span>
                 <span id="rcpt-vatable"></span>
             </div>
-            <div class="flex-between text-[20px]">
+            <div class="flex-between rcpt-text">
                 <span>VAT</span>
                 <span id="rcpt-vat"></span>
             </div>
             
-            <div id="rcpt-payments" class="text-[22px] mt-1"></div>
-            <div class="text-center text-[20px] mt-1">VAT INCLUDED</div>
+            <div id="rcpt-payments" class="rcpt-text mt-1"></div>
+            <div class="text-center rcpt-text mt-1">VAT INCLUDED</div>
             
             <div class="border-b border-dashed border-black my-2"></div>
-            <div class="text-center text-[22px]">
+            <div class="text-center rcpt-text">
                 Thank you<br>ออกใบกำกับภาษีภายในวันที่ซื้อสินค้าเท่านั้น
             </div>
             
             <div class="text-center mt-3 mb-2">
-                <img src="/asset/img/bill.png" alt="Footer" style="width:100%; max-width:180px; margin:0 auto; display:block;" onerror="this.style.display='none'">
+                <img src="/asset/img/bill.png" alt="Footer" style="width:100%; max-width:150px; margin:0 auto; display:block;" onerror="this.style.display='none'">
             </div>
         </div>
 
@@ -689,7 +699,7 @@
         let selectedCartIndex = -1; 
         let currentHistoryTxn = null; 
 
-        // New Variables for Ordering Flow
+        // Variables for Ordering Flow
         let currentOrderType = ""; 
         let deliveryInfo = { platform: "", id: "" };
         let queueCount = 1;
@@ -1476,15 +1486,15 @@
                 if (item.category && item.category.toLowerCase() === categoryName.toLowerCase()) {
                     gridHtml += `
                     <button onclick="addNonFuelItem('${item.name}', ${item.price}); closeModal('modal-category-items');" class="pos-btn btn-gray p-3 h-28 flex flex-col justify-between items-center bg-white hover:bg-orange-50 transition-colors">
-                        <span class="font-bold text-[18px] leading-tight text-gray-800 w-full text-center break-words line-clamp-2">${item.name}</span>
-                        <span class="text-blue-900 font-black text-2xl mt-1">฿${item.price.toFixed(2)}</span>
+                        <span class="font-bold text-[14px] leading-tight text-gray-800 w-full text-center break-words line-clamp-2">${item.name}</span>
+                        <span class="text-blue-900 font-black text-xl mt-1">฿${item.price.toFixed(2)}</span>
                     </button>
                     `;
                 }
             }
 
             if (gridHtml === '') {
-                gridHtml = '<div class="col-span-3 text-center text-gray-600 font-bold py-10 text-xl">ไม่พบข้อมูลสินค้าในหมวดหมู่นี้</div>';
+                gridHtml = '<div class="col-span-3 text-center text-gray-600 font-bold py-10 text-lg">ไม่พบข้อมูลสินค้าในหมวดหมู่นี้</div>';
             }
 
             document.getElementById('category-items-grid').innerHTML = gridHtml;
@@ -1529,8 +1539,8 @@
             let html = '';
             currentCustomRows.forEach((r, i) => {
                 html += `<div class="flex gap-2 items-center bg-gray-100 p-2 rounded border border-gray-300">
-                    <input type="text" class="classic-input flex-[2] p-2 text-lg w-full" placeholder="รายละเอียด (ไม่บังคับ)" value="${r.detail}" oninput="updateCustomRow(${i}, 'detail', this.value)">
-                    <input type="number" class="classic-input flex-1 p-2 text-lg w-full text-right font-bold text-blue-900" placeholder="ราคา (บังคับ)" value="${r.price}" oninput="updateCustomRow(${i}, 'price', this.value)">
+                    <input type="text" class="classic-input flex-[2] p-2 text-sm w-full" placeholder="รายละเอียด (ไม่บังคับ)" value="${r.detail}" oninput="updateCustomRow(${i}, 'detail', this.value)">
+                    <input type="number" class="classic-input flex-1 p-2 text-sm w-full text-right font-bold text-blue-900" placeholder="ราคา (บังคับ)" value="${r.price}" oninput="updateCustomRow(${i}, 'price', this.value)">
                     <button onclick="removeCustomRow(${i})" class="text-red-500 hover:bg-red-100 px-3 py-1 rounded font-bold border border-red-200 bg-white shadow-sm">X</button>
                 </div>`;
             });
@@ -1643,7 +1653,7 @@
                 qty += item.isFuel ? 1 : item.qty;
                 
                 let displayName = item.name;
-                if(item.detail) displayName += `<br><span class="text-lg text-gray-600">&nbsp;&nbsp;> ${item.detail}</span>`;
+                if(item.detail) displayName += `<br><span class="text-xs text-gray-600">&nbsp;&nbsp;> ${item.detail}</span>`;
 
                 let rowClass = (i === selectedCartIndex) ? "selected-row" : "hover:bg-blue-50 border-b border-gray-200";
 
@@ -1656,7 +1666,7 @@
                     <td class="text-center align-top pt-2 w-20">
                         <div class="flex items-center justify-center gap-1">
                             <button onclick="editCartItem(${i})" class="text-blue-600 bg-white p-1 rounded border border-gray-400 hover:bg-blue-100 shadow-sm" title="แก้ไข">
-                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                             </button>
                             <button onclick="cart.splice(${i},1); selectedCartIndex=-1; updateCartUI();" class="text-red-500 font-bold bg-white px-2 py-0.5 rounded border border-gray-400 hover:bg-red-100 shadow-sm" title="ลบ">X</button>
                         </div>
@@ -1745,7 +1755,7 @@
                 snap.forEach(child => { txns.push({ id: child.key, ...child.val() }); });
                 
                 let html = `
-                <table class="w-full pos-table text-xl">
+                <table class="w-full pos-table text-sm">
                     <thead class="sticky top-0 z-10 shadow-sm">
                         <tr class="bg-gray-300">
                             <th class="w-24">เวลา</th>
@@ -2093,7 +2103,7 @@
         function handleLogin() {
             let pin = document.getElementById('emp-pin').value;
             if (pin) {
-                loggedInEmp = { name: "Kamonrat.p" }; // Default name if no pin lookup implemented
+                loggedInEmp = { name: "Kamonrat.p" }; 
                 document.getElementById('display-emp-name').innerText = loggedInEmp.name;
                 document.getElementById('screen-login').classList.add('hidden');
                 
