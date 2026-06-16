@@ -118,23 +118,26 @@
 
         /* Print Styles */
         @media print {
+            @page { margin: 0; padding: 0; }
             body > *:not(#print-container) { display: none !important; }
             #print-container { 
                 display: block !important; 
                 position: relative; width: 76mm; padding: 0; margin: 0; 
-                background: white; color: black; font-size: 12px; line-height: 1.3;
+                background: white; color: black; font-size: 13px; line-height: 1.3;
                 font-family: 'Tahoma', sans-serif;
             }
-            .page-break { page-break-after: always; }
+            /* คำสั่งตัดกระดาษ / ขึ้นหน้าใหม่ */
+            .page-break { page-break-after: always; clear: both; }
+            
             .dashed-line { border-top: 1px dashed black; margin: 4px 0; }
             .flex-between { display: flex; justify-content: space-between; }
             
-            .slip-font { font-size: 14px; font-weight: bold; }
-            .slip-queue-font { font-size: 32px; letter-spacing: 1px; }
+            .slip-font { font-size: 15px; font-weight: bold; }
+            .slip-queue-font { font-size: 34px; letter-spacing: 1px; }
             
-            .rcpt-text { font-size: 12px; }
-            .rcpt-header { font-size: 14px; font-weight: bold; }
-            .rcpt-large { font-size: 16px; font-weight: bold; }
+            .rcpt-text { font-size: 13px; }
+            .rcpt-header { font-size: 15px; font-weight: bold; }
+            .rcpt-large { font-size: 18px; font-weight: bold; }
         }
         .loader { border-top-color: #00aeef; animation: spinner 1s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -238,28 +241,28 @@
 
             <div class="grid grid-cols-7 grid-rows-3 gap-1 h-[210px] bg-gray-400 p-1 shrink-0 border-t-2 border-gray-500">
                 <div class="pos-btn btn-pink" onclick="openHistory()">รายการ<br>ย้อนหลัง</div>
-                <div class="pos-btn btn-yellow" onclick="handleFuelClick('Super Power GSH95')">ซูเปอร์<br>95</div>
-                <div class="pos-btn btn-green" onclick="handleFuelClick('เบนซิน 95')">เบนซิน<br>95</div>
-                <div class="pos-btn btn-orange" onclick="handleFuelClick('แก๊สโซฮอล์ 95')">แก๊สโซ<br>95</div>
-                <div class="pos-btn btn-orange" onclick="handleFuelClick('แก๊สโซฮอล์ 91')">แก๊สโซ<br>91</div>
-                <div class="pos-btn btn-orange" onclick="handleFuelClick('แก๊สโซฮอล์ E20')">แก๊สโซ<br>E20</div>
-                <div class="pos-btn btn-blue" onclick="runEdcSyncTest()">EDC Sync<br>Test</div>
+                <div class="pos-btn btn-green text-[#00603b]" onclick="openCategoryModal('Signature')">Signature</div>
+                <div class="pos-btn btn-yellow" onclick="openCategoryModal('Milk Tea')">Milk Tea</div>
+                <div class="pos-btn btn-yellow" onclick="openCategoryModal('Matcha')">Matcha</div>
+                <div class="pos-btn btn-orange" onclick="openCategoryModal('Cocoa Milk')">Cocoa / Milk</div>
+                <div class="pos-btn btn-orange" onclick="openCategoryModal('Fruit Tea')">Fruit/Fresh</div>
+                <div class="pos-btn btn-blue" onclick="openCategoryModal('Ice Blended')">Ice<br>Blended</div>
                 
                 <div class="pos-btn btn-pink" onclick="openModal('modal-blueplus')">แต้มสะสม<br><span class="hotkey-label text-pink-700">F3</span></div>
-                <div class="pos-btn btn-yellow" onclick="handleFuelClick('แก๊สโซฮอล์ E85')">แก๊สโซ<br>E85</div>
-                <div class="pos-btn btn-green" onclick="handleFuelClick('ดีเซลพรีเมียม')">ดีเซล<br>PREM</div>
-                <div class="pos-btn btn-green" onclick="handleFuelClick('ดีเซล')">ดีเซล<br>B7</div>
-                <div class="pos-btn btn-orange" onclick="openCategoryModal('Amazon')">Amazon</div>
-                <div class="pos-btn btn-orange" onclick="openCategoryModal('Promotion')">Promotion</div>
-                <div class="pos-btn btn-blue" onclick="openCategoryModal('PTT Lube')">Lube</div>
+                <div class="pos-btn bg-[#e9d5ff]" onclick="openCategoryModal('Topping')">Topping</div>
+                <div class="pos-btn bg-[#f3f4f6]" onclick="addModifier('0% No Sugar')">0%<br>No Sugar</div>
+                <div class="pos-btn bg-[#f3f4f6]" onclick="addModifier('25% Less Sugar')">25%<br>Less Sugar</div>
+                <div class="pos-btn bg-[#f3f4f6]" onclick="addModifier('50% Half Sugar')">50%<br>Half Sugar</div>
+                <div class="pos-btn bg-[#f3f4f6]" onclick="addModifier('100% Full Sugar')">100%<br>Full Sugar</div>
+                <div class="pos-btn btn-blue" onclick="runEdcSyncTest()">EDC Sync<br>Test</div>
 
                 <div class="pos-btn btn-pink" onclick="cart.pop(); selectedCartIndex = -1; updateCartUI();">ลบรายการ<br>ล่าสุด</div>
-                <div class="pos-btn btn-yellow" onclick="handleFuelClick('ดีเซล B20')">ดีเซล<br>B20</div>
-                <div class="pos-btn btn-green" onclick="handleFuelClick('แก๊ส NGV')">แก๊ส<br>NGV</div>
-                <div class="pos-btn btn-green" onclick="openCategoryModal('Jiffy')">Jiffy</div>
-                <div class="pos-btn btn-orange" onclick="openCategoryModal('Fit Auto')">Fit Auto</div>
-                <div class="pos-btn btn-orange" onclick="openCategoryModal('Pearly Tea')">PearlyTea</div>
-                <div class="pos-btn btn-blue" onclick="openCategoryModal('Others')">อื่นๆ</div>
+                <div class="pos-btn bg-[#dbeafe]" onclick="addModifier('Soy Milk', 10)">Soy Milk<br>(+10)</div>
+                <div class="pos-btn bg-[#dbeafe]" onclick="addModifier('Oat Milk', 25)">Oat Milk<br>(+25)</div>
+                <div class="pos-btn bg-[#d1d5db]" onclick="openCustomItemModal('กำหนดเอง')">กำหนดเอง</div>
+                <div class="pos-btn btn-orange" onclick="openCategoryModal('Promotion')">Promotion</div>
+                <div class="pos-btn btn-gray" onclick="openModal('modal-pumps')">ตู้จ่าย<br>น้ำมัน</div>
+                <div class="pos-btn btn-gray" onclick="openCategoryModal('Others')">อื่นๆ</div>
             </div>
         </div>
 
@@ -328,10 +331,10 @@
     </div>
 
     <div id="modal-category-items" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
-        <div class="classic-modal w-full max-w-3xl flex flex-col h-[80vh]">
+        <div class="classic-modal w-full max-w-4xl flex flex-col h-[80vh]">
             <h3 class="font-bold text-2xl mb-4 text-center bg-orange-600 text-white py-2 shadow-sm" id="category-modal-title">หมวดหมู่สินค้า</h3>
             <div class="flex-1 overflow-y-auto p-2 bg-gray-200 border-2 border-gray-400 shadow-inner">
-                <div id="category-items-grid" class="grid grid-cols-3 gap-2"></div>
+                <div id="category-items-grid" class="grid grid-cols-4 gap-2"></div>
             </div>
             <button onclick="closeModal('modal-category-items')" class="w-full pos-btn btn-pink py-4 mt-4 text-xl">ปิดหน้าต่าง [ESC]</button>
         </div>
@@ -714,8 +717,68 @@
         let customerDisplayWindow = null;
         let cdPhoneBuffer = ""; 
 
-        // ================= GAS API INTEGRATION =================
+        // ================= KAMU KAMU MENU MOCK DATA =================
         let localProducts = {};
+        const kamuMenu = {
+            // Signatures
+            'S01': { name: "Signature Osmanthus Flora", price: 120, category: "Signature" },
+            'S02': { name: "Signature Camellia Flora", price: 120, category: "Signature" },
+            'S03': { name: "Signature Chizu Brulee", price: 120, category: "Signature" },
+            'S04': { name: "Fuji Forest", price: 110, category: "Signature" },
+            'S05': { name: "Signature Matcha Chado", price: 130, category: "Signature" },
+            'S06': { name: "Ichigo Matcha", price: 100, category: "Signature" },
+            'S07': { name: "Signature Ichigo Fresh Milk", price: 120, category: "Signature" },
+            'S08': { name: "Momo My Peach", price: 120, category: "Signature" },
+            'S09': { name: "Fuji Glam", price: 110, category: "Signature" },
+            'S10': { name: "Kamu Dino", price: 100, category: "Signature" },
+            
+            // Milk Tea
+            'M01': { name: "KAMU Classic Milk Tea", price: 60, category: "Milk Tea" },
+            'M02': { name: "The Ancient Thai Tea", price: 60, category: "Milk Tea" },
+
+            // Matcha
+            'T01': { name: "Fuji Matcha", price: 90, category: "Matcha" },
+            'T02': { name: "Matcha Lemonade", price: 90, category: "Matcha" },
+            'T03': { name: "Matcha Latte (Premium)", price: 90, category: "Matcha" },
+            'T04': { name: "Pure Matcha", price: 80, category: "Matcha" },
+
+            // Cocoa Milk
+            'C01': { name: "Dark Cocoa", price: 70, category: "Cocoa Milk" },
+            'C02': { name: "Old-School Choco", price: 70, category: "Cocoa Milk" },
+            'C03': { name: "Fresh Milk/Low Fat Milk", price: 60, category: "Cocoa Milk" },
+            'C04': { name: "Soy Milk/Oat Milk", price: 70, category: "Cocoa Milk" },
+
+            // Fruit Tea
+            'F01': { name: "Honey Lemon Green Tea", price: 70, category: "Fruit Tea" },
+            'F02': { name: "Lemon Green Tea", price: 70, category: "Fruit Tea" },
+            'F03': { name: "Momo Peach Green Tea", price: 90, category: "Fruit Tea" },
+            'F04': { name: "Fuji Osmanthus Flora GT", price: 80, category: "Fruit Tea" },
+            'F05': { name: "Jasmine Green Tea", price: 60, category: "Fruit Tea" },
+            'F06': { name: "Osmanthus Flora GT", price: 70, category: "Fruit Tea" },
+            'F07': { name: "Camellia Flora GT", price: 70, category: "Fruit Tea" },
+
+            // Ice Blended
+            'B01': { name: "Fuji Matcha Blended", price: 110, category: "Ice Blended" },
+            'B02': { name: "Matcha Latte Blended", price: 110, category: "Ice Blended" },
+            'B03': { name: "Momo Peach Blended", price: 110, category: "Ice Blended" },
+            'B04': { name: "Fuji Osmanthus Blended", price: 100, category: "Ice Blended" },
+            'B05': { name: "Dark Cocoa Blended", price: 90, category: "Ice Blended" },
+            'B06': { name: "Old-School Choco Blended", price: 90, category: "Ice Blended" },
+            'B07': { name: "Fresh Milk Blended", price: 80, category: "Ice Blended" },
+
+            // Toppings
+            'TP01': { name: "Warabi Boba", price: 20, category: "Topping" },
+            'TP02': { name: "Warabi Mochi", price: 20, category: "Topping" },
+            'TP03': { name: "Aiyu Osmanthus", price: 20, category: "Topping" },
+            'TP04': { name: "Chizu Brulee", price: 30, category: "Topping" },
+            'TP05': { name: "Signature Cheese Cream", price: 30, category: "Topping" },
+            'TP06': { name: "Black Pearl", price: 10, category: "Topping" },
+            'TP07': { name: "Crystal Pearl", price: 20, category: "Topping" },
+            'TP08': { name: "Crumble Duo", price: 25, category: "Topping" },
+            'TP09': { name: "Cocoa Crumble", price: 20, category: "Topping" },
+            'TP10': { name: "Fossil", price: 20, category: "Topping" },
+        };
+
         let localStaff = {};
         const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwL57-ahnriboBRB6ODzoeSWgjtus4OXgqPURgCgNhYM5vJhKdoJAsziWrb8rASNXO9/exec";
 
@@ -724,10 +787,14 @@
                 const response = await fetch(GAS_API_URL + "?t=" + Date.now());
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
-                localProducts = data.products || data;
+                
+                // Merge data (Kamu menu acts as base, GAS overrides or adds if needed)
+                Object.assign(localProducts, kamuMenu, data.products || data);
                 localStaff = data.staff || {};
             } catch (error) {
                 console.error("Failed to load GAS data:", error);
+                // Fallback to internal Kamu menu if offline
+                localProducts = { ...kamuMenu };
             }
         }
         
@@ -1057,6 +1124,26 @@
             document.getElementById('screen-order-type').classList.add('hidden');
             document.getElementById('screen-dashboard').classList.remove('hidden');
             setTimeout(() => { document.getElementById('barcode-input').focus(); }, 100);
+        }
+
+        // ADD MODIFIER FUNCTION
+        function addModifier(detailText, extraPrice = 0) {
+            if (cart.length === 0) return alert('กรุณาเลือกเครื่องดื่มก่อนเพิ่มตัวเลือก');
+            
+            let lastItem = cart[cart.length - 1];
+            if(lastItem.price < 0) return alert('ไม่สามารถเพิ่มตัวเลือกในส่วนลดได้');
+            
+            if(lastItem.detail) {
+                lastItem.detail += ', ' + detailText;
+            } else {
+                lastItem.detail = detailText;
+            }
+            
+            if(extraPrice > 0) {
+                lastItem.price += extraPrice;
+                lastItem.amount = lastItem.qty * lastItem.price;
+            }
+            updateCartUI();
         }
 
         function keepFocus() {
@@ -1494,7 +1581,7 @@
             }
 
             if (gridHtml === '') {
-                gridHtml = '<div class="col-span-3 text-center text-gray-600 font-bold py-10 text-lg">ไม่พบข้อมูลสินค้าในหมวดหมู่นี้</div>';
+                gridHtml = '<div class="col-span-4 text-center text-gray-600 font-bold py-10 text-lg">ไม่พบข้อมูลสินค้าในหมวดหมู่นี้</div>';
             }
 
             document.getElementById('category-items-grid').innerHTML = gridHtml;
