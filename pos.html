@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>PTT Station - Professional POS</title>
+    <title>Flexi POS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
@@ -164,6 +164,7 @@
         </div>
     </div>
 
+    <!-- ORDER TYPE SCREEN -->
     <div id="screen-order-type" class="hidden login-bg absolute inset-0 z-40 p-10 flex items-center justify-center gap-6 select-none">
         <div onclick="selectOrderType('TAKE AWAY')" class="bg-[#325794] hover:bg-[#284577] flex-1 h-full max-h-[80%] flex items-center justify-center text-white text-5xl font-bold cursor-pointer shadow-xl active:scale-95 transition-all duration-200 uppercase tracking-wide">
             TAKE AWAY
@@ -178,6 +179,7 @@
         </div>
     </div>
 
+    <!-- DELIVERY INFO MODAL -->
     <div id="modal-delivery-info" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-sm">
             <h3 class="font-bold text-2xl mb-4 text-center bg-[#325794] text-white py-1">ข้อมูล Delivery</h3>
@@ -239,6 +241,7 @@
                 </div>
             </div>
 
+            <!-- KEYPAD AREA: KAMU MENU -->
             <div class="grid grid-cols-7 grid-rows-3 gap-1 h-[210px] bg-gray-400 p-1 shrink-0 border-t-2 border-gray-500">
                 <div class="pos-btn btn-pink" onclick="openHistory()">รายการ<br>ย้อนหลัง</div>
                 <div class="pos-btn btn-green text-[#00603b]" onclick="openCategoryModal('Signature')">Signature</div>
@@ -250,10 +253,10 @@
                 
                 <div class="pos-btn btn-pink" onclick="openModal('modal-blueplus')">แต้มสะสม<br><span class="hotkey-label text-pink-700">F3</span></div>
                 <div class="pos-btn bg-[#e9d5ff]" onclick="openCategoryModal('Topping')">Topping</div>
-                <div class="pos-btn bg-[#f3f4f6]" onclick="addModifier('0% No Sugar')">0%<br>No Sugar</div>
-                <div class="pos-btn bg-[#f3f4f6]" onclick="addModifier('25% Less Sugar')">25%<br>Less Sugar</div>
-                <div class="pos-btn bg-[#f3f4f6]" onclick="addModifier('50% Half Sugar')">50%<br>Half Sugar</div>
-                <div class="pos-btn bg-[#f3f4f6]" onclick="addModifier('100% Full Sugar')">100%<br>Full Sugar</div>
+                <div class="pos-btn bg-[#f3f4f6]" onclick="addModifier('Sugar 0%')">0%<br>No Sugar</div>
+                <div class="pos-btn bg-[#f3f4f6]" onclick="addModifier('Sugar 25%')">25%<br>Less Sugar</div>
+                <div class="pos-btn bg-[#f3f4f6]" onclick="addModifier('Sugar 50%')">50%<br>Half Sugar</div>
+                <div class="pos-btn bg-[#f3f4f6]" onclick="addModifier('Sugar 100%')">100%<br>Full Sugar</div>
                 <div class="pos-btn btn-blue" onclick="runEdcSyncTest()">EDC Sync<br>Test</div>
 
                 <div class="pos-btn btn-pink" onclick="cart.pop(); selectedCartIndex = -1; updateCartUI();">ลบรายการ<br>ล่าสุด</div>
@@ -330,6 +333,7 @@
         </div>
     </div>
 
+    <!-- ALL ORIGINAL MODALS -->
     <div id="modal-category-items" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
         <div class="classic-modal w-full max-w-4xl flex flex-col h-[80vh]">
             <h3 class="font-bold text-2xl mb-4 text-center bg-orange-600 text-white py-2 shadow-sm" id="category-modal-title">หมวดหมู่สินค้า</h3>
@@ -593,8 +597,10 @@
     </div>
 
 
+    <!-- PRINT CONTAINER (Order Slip & Receipt) -->
     <div id="print-container" class="hidden">
         
+        <!-- 1. ORDER SLIP (ใบออเดอร์) -->
         <div id="order-slip-80mm" class="page-break pb-4">
             <div class="flex-between font-bold slip-font">
                 <span>No.: <span id="os-no"></span></span>
@@ -614,40 +620,42 @@
             </div>
         </div>
 
+        <!-- 2. RECEIPT (ใบเสร็จ) -->
         <div id="receipt-80mm" class="pt-2">
             <div class="text-center mb-1">
                 <img src="/asset/img/logo.png" alt="Logo" style="width:50px; margin:0 auto; display:block;" onerror="this.style.display='none'">
                 <div class="rcpt-header mt-2">TAX INVOICE(ABB)/RECEIPT</div>
                 <div class="rcpt-text">KAMU KAMU COMPANY LIMITED</div>
-                <div class="rcpt-text">00077: Robinson Ratchaphruek</div>
+                <div class="rcpt-text">00000: Rajamangala University of Technology Thany</div>
             </div>
             
             <div class="flex-between rcpt-text">
                 <span>TAX: 0105556195543</span>
-                <span>RD: E041200002A5270</span>
+                <span>RD: </span>
             </div>
             <div class="flex-between rcpt-text">
                 <span>STAFF: <span id="rcpt-staff"></span></span>
                 <span id="rcpt-datetime"></span>
             </div>
-            <div class="flex-between rcpt-text border-b border-dashed border-black pb-1 mb-1">
-                <span>SHOP: M00076/01</span>
+            <div class="flex-between rcpt-text pb-1">
+                <span>SHOP: M00131/01</span>
                 <span>No.: <span id="rcpt-no"></span></span>
             </div>
             
-            <div class="text-center rcpt-large my-2" id="rcpt-queue-display"></div>
+            <div class="text-center rcpt-large my-1" id="rcpt-queue-display"></div>
             
-            <div class="border-b border-dashed border-black mb-1"></div>
+            <div class="dashed-line"></div>
             <div id="rcpt-items" class="rcpt-text w-full mb-1"></div>
-            <div class="border-b border-dashed border-black mb-1"></div>
+            <div class="dashed-line"></div>
             
             <div class="flex-between rcpt-text">
-                <span>SubTotal</span>
-                <span id="rcpt-subtotal"></span>
+                <span style="flex: 1;">SubTotal</span>
+                <span style="width: 30px; text-align: center;" id="rcpt-subtotal-qty"></span>
+                <span style="width: 70px; text-align: right;" id="rcpt-subtotal"></span>
             </div>
             <div id="rcpt-discounts" class="rcpt-text"></div>
             
-            <div class="flex-between rcpt-text mt-1">
+            <div class="flex-between rcpt-text">
                 <span>Total</span>
                 <span id="rcpt-total"></span>
             </div>
@@ -665,10 +673,10 @@
             </div>
             
             <div id="rcpt-payments" class="rcpt-text mt-1"></div>
-            <div class="text-center rcpt-text mt-1">VAT INCLUDED</div>
             
-            <div class="border-b border-dashed border-black my-2"></div>
-            <div class="text-center rcpt-text">
+            <div class="text-center rcpt-text mt-1">VAT INCLUDED</div>
+            <div class="dashed-line"></div>
+            <div class="text-center rcpt-text mt-1">
                 Thank you<br>ออกใบกำกับภาษีภายในวันที่ซื้อสินค้าเท่านั้น
             </div>
             
@@ -787,13 +795,10 @@
                 const response = await fetch(GAS_API_URL + "?t=" + Date.now());
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
-                
-                // Merge data (Kamu menu acts as base, GAS overrides or adds if needed)
                 Object.assign(localProducts, kamuMenu, data.products || data);
                 localStaff = data.staff || {};
             } catch (error) {
                 console.error("Failed to load GAS data:", error);
-                // Fallback to internal Kamu menu if offline
                 localProducts = { ...kamuMenu };
             }
         }
@@ -2125,7 +2130,7 @@
             // =========================
             // 2. RECEIPT (ใบเสร็จรับเงิน)
             // =========================
-            document.getElementById('rcpt-staff').innerText = t.cashier || 'Kamonrat';
+            document.getElementById('rcpt-staff').innerText = t.cashier || 'Chonthicha Sukonsan'; // From photo reference
             document.getElementById('rcpt-datetime').innerText = `${dStr} ${tStr}`;
             document.getElementById('rcpt-no').innerText = displayTrace;
             
@@ -2135,25 +2140,38 @@
             document.getElementById('rcpt-queue-display').innerText = rcptQueueText;
             
             let rcptItemsHtml = '';
+            let totalQty = 0;
             t.cart.forEach(i => {
+                totalQty += i.qty;
                 rcptItemsHtml += `
-                <div class="flex justify-between items-start">
-                    <span class="flex-1">${i.name}</span>
-                    <span class="w-8 text-center">${i.qty}</span>
-                    <span class="w-16 text-right">${i.amount.toFixed(2)}</span>
+                <div class="flex justify-between items-start leading-tight mt-1">
+                    <span style="flex: 1; padding-right: 4px;">${i.name}</span>
+                    <span style="width: 30px; text-align: center;">${i.qty}</span>
+                    <span style="width: 70px; text-align: right;">${i.amount.toFixed(2)} V</span>
                 </div>`;
+                
                 if(i.detail) {
-                    rcptItemsHtml += `<div class="text-gray-700 ml-2">- ${i.detail}</div>`;
+                    let mods = i.detail.split(', ');
+                    mods.forEach(m => {
+                        rcptItemsHtml += `
+                        <div class="flex justify-between items-start leading-tight text-gray-700">
+                            <span style="flex: 1; padding-left: 12px;">1 x ${m.trim()}</span>
+                            <span style="width: 30px; text-align: center;"></span>
+                            <span style="width: 70px; text-align: right;">V</span>
+                        </div>`;
+                    });
                 }
             });
+            
             document.getElementById('rcpt-items').innerHTML = rcptItemsHtml;
+            document.getElementById('rcpt-subtotal-qty').innerText = totalQty;
             
             let totalDiscount = (t.discountAmount || 0) + (t.redeemDiscountAmt || 0);
             document.getElementById('rcpt-subtotal').innerText = t.subtotal.toFixed(2);
             
             let dHtml = '';
-            if (t.discountAmount > 0) dHtml += `<div class="flex-between"><span>${t.discountName}</span><span>-${t.discountAmount.toFixed(2)}</span></div>`;
-            if (t.redeemDiscountAmt > 0) dHtml += `<div class="flex-between"><span>แลกคะแนน ${t.redeemedPoints} แต้ม</span><span>-${t.redeemDiscountAmt.toFixed(2)}</span></div>`;
+            if (t.discountAmount > 0) dHtml += `<div class="flex-between"><span>${t.discountName}</span><span style="width:30px;"></span><span style="width:70px; text-align:right;">-${t.discountAmount.toFixed(2)}</span></div>`;
+            if (t.redeemDiscountAmt > 0) dHtml += `<div class="flex-between"><span>แลกคะแนน ${t.redeemedPoints} แต้ม</span><span style="width:30px;"></span><span style="width:70px; text-align:right;">-${t.redeemDiscountAmt.toFixed(2)}</span></div>`;
             document.getElementById('rcpt-discounts').innerHTML = dHtml;
 
             document.getElementById('rcpt-total').innerText = (t.subtotal - totalDiscount).toFixed(2);
@@ -2167,14 +2185,18 @@
             let phtml = '';
             if(t.partialPayments && t.partialPayments.length > 0) {
                 t.partialPayments.forEach(p => {
-                    let mName = p.method === 'CASH' ? 'CASH' : (p.cardNetwork || 'VISA Card');
-                    phtml += `<div class="flex-between"><span>${mName}</span><span>${p.amount.toFixed(2)}</span></div>`;
+                    let mName = '';
+                    if (p.method === 'CASH') mName = 'CASH';
+                    else if (p.method === 'QR') mName = 'BBL QR';
+                    else mName = p.cardNetwork || 'VISA Card';
+                    
+                    phtml += `<div class="flex-between"><span>${mName}</span><span style="width:30px;"></span><span style="width:70px; text-align:right;">${p.amount.toFixed(2)}</span></div>`;
                     if (p.method === 'CASH' && p.change > 0) {
-                         phtml += `<div class="flex-between"><span>Change</span><span>${p.change.toFixed(2)}</span></div>`;
+                         phtml += `<div class="flex-between"><span>Change</span><span style="width:30px;"></span><span style="width:70px; text-align:right;">${p.change.toFixed(2)}</span></div>`;
                     }
                 });
             } else {
-                phtml += `<div class="flex-between"><span>CASH</span><span>${t.total.toFixed(2)}</span></div>`;
+                phtml += `<div class="flex-between"><span>CASH</span><span style="width:30px;"></span><span style="width:70px; text-align:right;">${t.total.toFixed(2)}</span></div>`;
             }
             document.getElementById('rcpt-payments').innerHTML = phtml;
 
@@ -2190,7 +2212,7 @@
         function handleLogin() {
             let pin = document.getElementById('emp-pin').value;
             if (pin) {
-                loggedInEmp = { name: "Kamonrat.p" }; 
+                loggedInEmp = { name: "Chonthicha Sukonsan" }; // Match reference photo
                 document.getElementById('display-emp-name').innerText = loggedInEmp.name;
                 document.getElementById('screen-login').classList.add('hidden');
                 
